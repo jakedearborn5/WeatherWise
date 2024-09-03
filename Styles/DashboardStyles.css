@@ -1,0 +1,42 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    color: #333;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #00796b;
+    color: white;
+    padding: 20px;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+}
+
+#weather-overview {
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #00796b;
+    border-radius: 5px;
+    background-color: #ffffff;
+    max-width: 400px;
+    text-align: center;
+}
+
+#weather-overview img {
+    width: 100px;
+}
+
+footer {
+    background-color: #00796b;
+    color: white;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
