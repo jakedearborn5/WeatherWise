@@ -5,7 +5,7 @@ A weather application made for the University of Oklahoma's CS 3203: Software En
 ## :telephone_receiver: Contact
 
 - [Jacob Bowlware](mailto:jacob.bowlware@ou.edu)
-- [Jacob Dearborn](mailto:)
+- [Jacob Dearborn](mailto:jtdear4@ou.edu)
 - [Ian Morris](mailto:ianrhys777@gmail.com)
 - [Andrew Ramsey](mailto:andrew.t.ramsey.1@gmail.com)
 - [Jace Rausch](mailto:jacerausch@gmail.com)
