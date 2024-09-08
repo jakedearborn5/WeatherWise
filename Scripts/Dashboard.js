@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Example weather API
     setTimeout(() => {
-        tempElement.textContent = '75°F';
-        conditionElement.textContent = 'Cloudy';
+        tempElement.textContent = '84°F';
+        conditionElement.textContent = 'Sunny';
     }, 1000);
 });
