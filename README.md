@@ -2,6 +2,11 @@
 
 A weather application made for the University of Oklahoma's CS 3203: Software Engineering.
 
+Key Features:
+- Weather data for the day, based on your current location.
+- Personalized suggestions for essential items/attire, based on weather conditions.
+- AI Chatbot that can answer any specific questions you have regarding planning your day around the weather.
+
 To contribute to this project, you must have a code editor that supports the languages Javascript, HTML, and CSS. IDE's such as Visual Studio Code work well for this, but any other code editor, such as Notepad++, would work as well. After installing and setting up your code editor of choice, simply clone the repository to your local system and commit changes from there.
 
 ## :telephone_receiver: Contact
