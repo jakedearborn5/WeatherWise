@@ -24,9 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
           
           // Getting the current forecast period
           const currentPeriod = forecastData.properties.periods[0];
-          gi
           // Changing visual elements to current conditions
-          tempElement.textContent = `${currentPeriod.temperature}`;
+          tempElement.textContent = `${currentPeriod.temperature}` + '° F';
           conditionElement.textContent = `${currentPeriod.shortForecast}`;
       
         } catch (error) {
