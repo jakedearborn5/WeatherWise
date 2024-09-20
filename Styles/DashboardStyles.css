@@ -11,10 +11,10 @@ body {
 }
 
 header {
-    background-color: #00796b;
+    background-color: #00796b00;
     color: white;
     padding: 20px;
-    text-align: center;
+    text-align: left;
 }
 
 main {
