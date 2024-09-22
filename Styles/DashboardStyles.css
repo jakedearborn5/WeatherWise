@@ -15,6 +15,57 @@ header {
     color: white;
     padding: 20px;
     text-align: left;
+    
+}
+
+
+.onoffswitch {
+    position: relative; width: 60px;
+    
+}
+.onoffswitch-checkbox {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+.onoffswitch-label {
+    display: block; overflow: hidden; cursor: pointer;
+    border: 0px solid transparent; border-radius: 24px;
+}
+.onoffswitch-inner {
+    display: block; width: 200%; margin-left: -100%;
+    transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before, .onoffswitch-inner:after {
+    display: block; float: left; width: 50%; height: 41px; padding: 0; line-height: 41px;
+    font-size: 25px; color: white; font-family: Trebuchet, Arial, sans-serif; font-weight: bold;
+    box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+    content: "F°";
+    padding-left: 15px;
+    text-shadow: 1px 1px black;
+    text-align: center;
+}
+.onoffswitch-inner:after {
+    content: "C°";
+    padding-right: 15px;
+    text-shadow: 1px 1px black;
+    text-align: right;
+}
+.onoffswitch-switch {
+    display: block; width: 0px; margin: 20.5px;
+    background: #ffffff00;
+    position: absolute; top: 0; bottom: 0;
+    right: 15px;
+    border: 0px solid #FFFFFF; border-radius: 24px;
+    transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-inner {
+    margin-left: 0;
+}
+.onoffswitch-checkbox:checked + .onoffswitch-label .onoffswitch-switch {
+    right: 0px; 
 }
 
 main {
