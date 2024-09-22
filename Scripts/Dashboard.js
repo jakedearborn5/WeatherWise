@@ -2,6 +2,19 @@ document.addEventListener('DOMContentLoaded', () => {
     getWeatherForUser();
 });
 
+document.getElementById('toggles').addEventListener('change', () => {
+    const toggleUnits = document.getElementById('toggles');
+    const tempElement = document.getElementById('temp');
+    if(toggleUnits.checked){ //true when the units are in fahrenheit
+        toggleUnits.checked = true; //toggle state of the checkbox
+        tempElement.textContent = tempElement.getAttribute('data-tempCelsius') + '° C';
+    }
+    else{
+        toggleUnits.checked = false; //toggle state of the checkbox
+        tempElement.textContent = tempElement.getAttribute('data-tempFahrenheit') + '° F';
+    }
+});
+
 async function getWeatherForUser() {
     const tempElement = document.getElementById('temp');
     const conditionElement = document.getElementById('condition');
@@ -23,6 +36,8 @@ async function getWeatherForUser() {
         // Getting the current forecast period
         const currentPeriod = forecastData.properties.periods[0];
         // Changing visual elements to current conditions
+        tempElement.setAttribute('data-tempFahrenheit', currentPeriod.temperature);
+        tempElement.setAttribute('data-tempCelsius',Math.round((currentPeriod.temperature - 32) * 5/9));
         tempElement.textContent = `${currentPeriod.temperature}` + '° F';
         conditionElement.textContent = `${currentPeriod.shortForecast}`;
 
