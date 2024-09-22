@@ -7,9 +7,23 @@
     <link rel="stylesheet" href="../Styles/DashboardStyles.css">
     <script src="../Scripts/Dashboard.js" defer></script>
 </head>
+
+
 <body>
     <header>
-        <h1>Dashboard</h1>
+        <span id="fahrenheit-label" class="null"></span>
+        
+        <!-- Adds the toggle switch for unit of measurement -->
+        <div class="fx-block">
+            <div class="toggle">
+                <div>
+                    <input type="checkbox" id="toggles">
+                    <div data-unchecked="F°" data-checked="C°">
+                    </div>
+                </div>
+            </div>
+        </div>
+    
     </header>
 
     <main>
@@ -21,8 +35,9 @@
         </section>
     </main>
 
-    <footer>
+   <!-- <footer>
         <p>Group H's Weather Application for University of Oklahoma's CS 3203: Software Engineering</p>
     </footer>
+    -->
 </body>
 </html>
