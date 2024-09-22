@@ -14,12 +14,14 @@
         <span id="fahrenheit-label" class="null"></span>
         
         <!-- Adds the toggle switch for unit of measurement -->
-        <div class="onoffswitch">
-            <input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="myonoffswitch" tabindex="0" checked>
-            <label class="onoffswitch-label" for="myonoffswitch">
-                <span class="onoffswitch-inner"></span>
-                <span class="onoffswitch-switch"></span>
-            </label>
+        <div class="fx-block">
+            <div class="toggle">
+                <div>
+                    <input type="checkbox" id="toggles">
+                    <div data-unchecked="F°" data-checked="C°">
+                    </div>
+                </div>
+            </div>
         </div>
     
     </header>
