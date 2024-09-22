@@ -1,6 +1,6 @@
 # :sun_behind_large_cloud: Weather Application
 
-A weather application made for the University of Oklahoma's CS 3203: Software Engineering.
+A weather application made by Group H for the University of Oklahoma's CS 3203: Software Engineering.
 
 Key Features:
 - Weather data for the day, based on your current location.
