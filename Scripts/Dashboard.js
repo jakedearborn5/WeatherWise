@@ -1,61 +1,67 @@
 document.addEventListener('DOMContentLoaded', () => {
+    getWeatherForUser();
+});
+
+async function getWeatherForUser() {
     const tempElement = document.getElementById('temp');
     const conditionElement = document.getElementById('condition');
+    try {
+        // Get the users current location [latitude, longitude]
+        const userPosition = await getCurrentLocation();
 
-    // Example weather API
-    setTimeout(() => {
-        // tempElement.textContent = '84°F';
-        // conditionElement.textContent = 'Sunny';
-        getWeatherForUser();
-    }, 1000);
+        const pointResponse = await fetch(`https://api.weather.gov/points/${userPosition[0]},${userPosition[1]}`);
+        const pointData = await pointResponse.json();
 
-    async function getWeatherForUser() {
-        try {
-            // Get the users current location [latitude, longitude]
-            const userPosition = await getCurrentLocation();
+        //Using the gridId, gridX, gridY to get the forecast URL
+        const forecastUrl = pointData.properties.forecast;
 
-            const pointResponse = await fetch(`https://api.weather.gov/points/${userPosition[0]},${userPosition[1]}`);
-            const pointData = await pointResponse.json();
+        //Getting the forecast data from the URL
+        const forecastResponse = await fetch(forecastUrl);
+        const forecastData = await forecastResponse.json();
 
-            //Using the gridId, gridX, gridY to get the forecast URL
-            const forecastUrl = pointData.properties.forecast;
+        console.log(forecastData);
+        // Getting the current forecast period
+        const currentPeriod = forecastData.properties.periods[0];
+        // Changing visual elements to current conditions
+        tempElement.textContent = `${currentPeriod.temperature}` + '° F';
+        conditionElement.textContent = `${currentPeriod.shortForecast}`;
 
-            //Getting the forecast data from the URL
-            const forecastResponse = await fetch(forecastUrl);
-            const forecastData = await forecastResponse.json();
-
-            // Getting the current forecast period
-            const currentPeriod = forecastData.properties.periods[0];
-            // Changing visual elements to current conditions
-            tempElement.textContent = `${currentPeriod.temperature}` + '° F';
-            conditionElement.textContent = `${currentPeriod.shortForecast}`;
-
-        } catch (error) {
-            console.error('Error fetching weather data:', error);
-        }
-    }
-
-    /**
-     *  Gets the users current location using the geolocation API
-     * @returns string[latitude, longitude] - The users current latitude and longitude coordinates
-     */
-    async function getCurrentLocation() {
-        return new Promise((resolve, reject) => {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
-                        const latitude = position.coords.latitude;
-                        const longitude = position.coords.longitude;
-                        resolve([latitude, longitude]);
-                    },
-                    (error) => {
-                        reject('Error getting location: ' + error.message);
-                    }
-                );
-            } else {
-                reject('Geolocation is not supported by this browser.');
-            }
-        });
+    } catch (error) {
+        console.error('Error fetching weather data:', error);
     }
 }
-);
+
+/**
+* Gets the users current location using the geolocation API
+* @returns string[latitude, longitude] - The users current latitude and longitude coordinates
+*/
+async function getCurrentLocation() {
+    return new Promise((resolve, reject) => {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const latitude = position.coords.latitude;
+                    const longitude = position.coords.longitude;
+                    resolve([latitude, longitude]);
+                },
+                (error) => {
+                    reject('Error getting location: ' + error.message);
+                }
+            );
+        } else {
+            reject('Geolocation is not supported by this browser.');
+        }
+    });
+}
+
+
+//TODO- changes the background gradient based on the parameters
+async function changeBackgroundGradient(temp, cond, time){
+  let conditionsColor, temperatureColor = {
+    hue,
+    saturation,
+    lightness
+  }
+}
+
+
