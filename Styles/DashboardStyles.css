@@ -24,8 +24,7 @@ header {
     padding: 10px;
     width: 50px;
     height: 12px;
-    border-radius: 50px;
-    box-shadow: 0 -1px 1px 0 rgba(0, 0, 0, .5), 0px 1px 1px 0 rgba(255, 255, 255, 1);
+    border-radius: 10px;
     background: rgba(255, 255, 255, 0.2);
   }
   
@@ -47,15 +46,14 @@ header {
     border-radius: 10px;
     top: 7px;
     left: 15px;
-    color: black;
-    text-shadow: 1px 1px 1px white;
+    color: white;
 
   }
   
   /* Controls C° text */
   .toggle > div > input[type=checkbox] ~ div:after {
     content: attr(data-checked);
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(255, 255, 255, 0.5);
     display: block;
     position: absolute;
     border-radius: 10px;
@@ -65,13 +63,12 @@ header {
   
   /* Changes font of F° to transparent when C° is checked*/
   .toggle > div > input[type=checkbox]:checked ~ div:before {
-    color: rgba(0, 0, 0, 0.5);
+    color: rgba(255, 255, 255, 0.5);
    text-shadow: none;
   }
   /* Changes font of C° to fully opaque */
   .toggle > div > input[type=checkbox]:checked ~ div:after {
-    color: #000;
-    text-shadow: 1px 1px 1px white;
+    color: white;
   }
 
 main {
@@ -89,13 +86,4 @@ main {
 
 #weather-overview img {
     width: 100px;
-}
-
-footer {
-    background-color: #00796b;
-    color: white;
-    padding: 10px;
-    position: fixed;
-    width: 100%;
-    bottom: 0;
 }
