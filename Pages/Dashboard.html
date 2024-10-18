@@ -5,30 +5,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App - Dashboard</title>
     <link rel="stylesheet" href="../Styles/DashboardStyles.css">
-    <script src="../Scripts/Dashboard.js" defer></script>
+    <script type="module" src="../Scripts/Dashboard.js" defer></script>
 </head>
 
-
 <body>
-    <header>
-        <span id="fahrenheit-label" class="null"></span>
-        
-        <!-- Adds the toggle switch for unit of measurement -->
-        <div class="fx-block">
-            <div class="toggle">
-                <div>
-                    <input type="checkbox" id="toggles">
-                    <div data-unchecked="F°" data-checked="C°">
+    <header class="header">
+            <div>
+                <span id="fahrenheit-label" class="null"></span>
+                <!-- Adds the toggle switch for unit of measurement -->
+                <div class="fx-block">
+                    <div class="toggle">
+                        <div>
+                            <input type="checkbox" id="toggles">
+                            <div data-unchecked="F°" data-checked="C°">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    
+            <div class="header__search-container">
+                <input type="text" id="location-input" placeholder="Search Location">
+                <div id="location-suggestions">
+                </div>
+            </div>
     </header>
-
     <main>
         <section id="weather-overview">
-            <h2>Current Weather</h2>
+            <h2 id="weather-header">Current Weather</h2>
             <img src="../Images/example_image.png" alt="Weather Icon">
             <p>Temperature: <span id="temp">Loading...</span></p>    <!-- Text while loading temperature from API -->
             <p>Condition: <span id="condition">Loading...</span></p> <!-- Text while loading temperature from API -->
