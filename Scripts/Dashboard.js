@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     getWeatherForUser();
+    setupSlides();
 });
 
 document.getElementById('toggles').addEventListener('change', () => {
@@ -67,6 +68,47 @@ async function getCurrentLocation() {
             reject('Geolocation is not supported by this browser.');
         }
     });
+}
+
+async function setupSlides() {
+    const slideWrapper = document.getElementById('wrapper');
+    slides.forEach((slideText, index) => {
+        const swiperSlide = document.createElement("div");
+        swiperSlide.setAttribute("class", "swiper-slide");
+
+        const slide = document.createElement("div");
+        slide.setAttribute("class", "m-slide");
+        slide.innerHTML = slideText;
+
+        swiperSlide.appendChild(slide);
+        slideWrapper.appendChild(swiperSlide);
+    });
+
+    const mySwiper = new Swiper('.swiper-container', {
+        loop: true,
+        effect: 'coverflow',
+        grabCursor:true,
+        centeredSlides: true,
+        slidesPerView: 'auto',
+        initaialSlide: sliderId,
+        coverflowEffect: {
+            rotate: -30,
+            stretch: 0,
+            depth: 200,
+            modifier: 1,
+            slideShadows: false,
+        },
+
+        pagination: {
+            el: '.swiper-pagination',
+            dynamicBullets:true,
+        }
+    });
+}
+
+async function updateSlidesWithWeatehr(currentPeriod) { 
+    slides.push('Current weather: ${currentPeriod.shortForecast} at ${currentPeriod.temperature}° F');
+    setupSlides();
 }
 
 
