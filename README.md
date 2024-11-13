@@ -7,7 +7,7 @@ Key Features:
 - Personalized suggestions for essential items/attire, based on weather conditions.
 - AI Chatbot that can answer any specific questions you have regarding planning your day around the weather.
 
-To contribute to this project, you must have a code editor that supports the languages Javascript, HTML, and CSS. IDE's such as Visual Studio Code work well for this, but any other code editor, such as Notepad++, would work as well. After installing and setting up your code editor of choice, simply clone the repository to your local system and commit changes from there.
+To contribute to this project, you must have a code editor that supports the languages Javascript, HTML, and CSS. IDE's such as Visual Studio Code work well for this, but any other code editor, such as Notepad++, would work as well. Node.js is also necessary to run the server, so ensure that you have that installed to your local machine before attempting to work on this project. After installing and setting up your code editor of choice, simply clone the repository to your local system and commit changes from there.
 
 ## :telephone_receiver: Contact
 

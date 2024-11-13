@@ -1,51 +1,58 @@
+import './LocationSearch.js';
+import { getWeatherForLocation } from './LocationSearch.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     getWeatherForUser();
     setupSlides();
+    getWeather();
 });
 
 document.getElementById('toggles').addEventListener('change', () => {
     const toggleUnits = document.getElementById('toggles');
     const tempElement = document.getElementById('temp');
-    if(toggleUnits.checked){ //true when the units are in fahrenheit
+    if (toggleUnits.checked) { //true when the units are in fahrenheit
         toggleUnits.checked = true; //toggle state of the checkbox
         tempElement.textContent = tempElement.getAttribute('data-tempCelsius') + '° C';
     }
-    else{
+    else {
         toggleUnits.checked = false; //toggle state of the checkbox
         tempElement.textContent = tempElement.getAttribute('data-tempFahrenheit') + '° F';
     }
 });
 
-async function getWeatherForUser() {
-    const tempElement = document.getElementById('temp');
-    const conditionElement = document.getElementById('condition');
+async function getWeather() {
     try {
         // Get the users current location [latitude, longitude]
         const userPosition = await getCurrentLocation();
 
-        const pointResponse = await fetch(`https://api.weather.gov/points/${userPosition[0]},${userPosition[1]}`);
-        const pointData = await pointResponse.json();
-
-        //Using the gridId, gridX, gridY to get the forecast URL
-        const forecastUrl = pointData.properties.forecast;
-
-        //Getting the forecast data from the URL
-        const forecastResponse = await fetch(forecastUrl);
-        const forecastData = await forecastResponse.json();
-
-        console.log(forecastData);
         // Getting the current forecast period
-        const currentPeriod = forecastData.properties.periods[0];
-        // Changing visual elements to current conditions
-        tempElement.setAttribute('data-tempFahrenheit', currentPeriod.temperature);
-        tempElement.setAttribute('data-tempCelsius',Math.round((currentPeriod.temperature - 32) * 5/9));
-        tempElement.textContent = `${currentPeriod.temperature}` + '° F';
-        conditionElement.textContent = `${currentPeriod.shortForecast}`;
+        let currentPeriod = await getWeatherForLocation(userPosition[0], userPosition[1]);
+        currentPeriod.locationName = 'Current Weather';
 
+        // Changing visual elements to current conditions
+        updateWeatherDisplay(currentPeriod);
     } catch (error) {
         console.error('Error fetching weather data:', error);
     }
 }
+
+function updateWeatherDisplay(weather) {
+    const weatherHeaderElement = document.getElementById('weather-header');
+    const tempElement = document.getElementById('temp');
+    const conditionElement = document.getElementById('condition');
+
+    if (!weather) {
+        console.error('Error fetching weather data');
+        return;
+    }
+
+    weatherHeaderElement.textContent = weather.locationName;
+    conditionElement.textContent = weather.shortForecast;
+    tempElement.setAttribute('data-tempFahrenheit', weather.temperature);
+    tempElement.setAttribute('data-tempCelsius', Math.round((weather.temperature - 32) * 5 / 9));
+    tempElement.textContent = `${weather.temperature}° F`;
+}
+
 
 /**
 * Gets the users current location using the geolocation API
@@ -113,12 +120,12 @@ async function updateSlidesWithWeatehr(currentPeriod) {
 
 
 //TODO- changes the background gradient based on the parameters
-async function changeBackgroundGradient(temp, cond, time){
-  let conditionsColor, temperatureColor = {
-    hue,
-    saturation,
-    lightness
-  }
+async function changeBackgroundGradient(temp, cond, time) {
+    let conditionsColor, temperatureColor = {
+        hue,
+        saturation,
+        lightness
+    }
 }
 
-
+export { updateWeatherDisplay };
