@@ -1,3 +1,4 @@
+/* Swiper Container */
 .swiper-container {
   width: 90%;
   max-width: 500px;
@@ -9,10 +10,12 @@
   box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
 }
 
+/* Wrapper for Swiper Slides */
 .swiper-wrapper {
   display: flex;
 }
 
+/* Individual Slide Styling */
 .swiper-slide {
   display: flex;
   align-items: center;
@@ -26,6 +29,14 @@
   text-align: center;
 }
 
+/* Style for Image Inside Slide */
+.swiper-slide img {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 10px;
+}
+
+/* Pagination Styling */
 .swiper-pagination-bullet {
   background-color: rgba(255, 255, 255, 0.6);
   opacity: 1;
@@ -36,6 +47,7 @@
   opacity: 1;
 }
 
+/* General Body Styles */
 body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   background-image: linear-gradient(to bottom right, rgb(255, 145, 0), rgb(0, 179, 255));
@@ -48,6 +60,7 @@ body {
   padding: 0;
 }
 
+/* Header Styles */
 header {
   background-color: #00796b00;
   color: white;
@@ -95,7 +108,6 @@ header {
   top: 7px;
   left: 15px;
   color: white;
-
 }
 
 /* Controls C° text */
@@ -124,6 +136,7 @@ main {
   padding: 20px;
 }
 
+/* Weather Overview Section */
 #weather-overview {
   margin: 20px auto;
   padding: 20px;

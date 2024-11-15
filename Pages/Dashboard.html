@@ -5,30 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App - Dashboard</title>
     <link rel="stylesheet" href="../Styles/DashboardStyles.css">
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+    <!-- Dashboard Script -->
     <script type="module" src="../Scripts/Dashboard.js" defer></script>
 </head>
 
 <body>
     <header class="header">
-            <div>
-                <span id="fahrenheit-label" class="null"></span>
-                <!-- Adds the toggle switch for unit of measurement -->
-                <div class="fx-block">
-                    <div class="toggle">
-                        <div>
-                            <input type="checkbox" id="toggles">
-                            <div data-unchecked="F°" data-checked="C°">
-                            </div>
+        <div>
+            <span id="fahrenheit-label" class="null"></span>
+            <!-- Adds the toggle switch for unit of measurement -->
+            <div class="fx-block">
+                <div class="toggle">
+                    <div>
+                        <input type="checkbox" id="toggles">
+                        <div data-unchecked="F°" data-checked="C°">
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="header__search-container">
-                <input type="text" id="location-input" placeholder="Search Location">
-                <div id="location-suggestions">
-                </div>
-            </div>
+        </div>
+        <div class="header__search-container">
+            <input type="text" id="location-input" placeholder="Search Location">
+            <div id="location-suggestions"></div>
+        </div>
     </header>
+    
     <main>
         <section id="weather-overview">
             <h2 id="weather-header">Current Weather</h2>
@@ -37,17 +42,17 @@
             <p>Condition: <span id="condition">Loading...</span></p> <!-- Text while loading temperature from API -->
         </section>
 
-        <section id="weather-carousal" class="swiper-container">
+        <!-- Weather Carousel Section -->
+        <section id="weather-carousel" class="swiper-container">
             <div class="swiper-wrapper" id="wrapper">
+                <!-- Slides will be dynamically added here -->
             </div>
+            <!-- Pagination dots -->
             <div class="swiper-pagination"></div>
         </section>
-
     </main>
 
-   <!-- <footer>
-        <p>Group H's Weather Application for University of Oklahoma's CS 3203: Software Engineering</p>
-    </footer>
-    -->
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js" defer></script>
 </body>
 </html>
