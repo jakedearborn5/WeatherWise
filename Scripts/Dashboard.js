@@ -38,6 +38,7 @@ function updateWeatherDisplay(weather) {
     const weatherHeaderElement = document.getElementById('weather-header');
     const tempElement = document.getElementById('temp');
     const conditionElement = document.getElementById('condition');
+    const weatherIconElement = document.getElementById('weather-icon');
 
     if (!weather) {
         console.error('Error fetching weather data');
@@ -49,6 +50,46 @@ function updateWeatherDisplay(weather) {
     tempElement.setAttribute('data-tempFahrenheit', weather.temperature);
     tempElement.setAttribute('data-tempCelsius', Math.round((weather.temperature - 32) * 5 / 9));
     tempElement.textContent = `${weather.temperature}° F`;
+
+     // Choose icon based on weather conditions
+    let iconPath = "../icons/default.png"; // Default icon path
+    const forecast = weather.shortForecast.toLowerCase();
+
+    // Define a prioritized mapping of keywords to icon paths
+    const weatherIcons = [
+        { keyword: "partly cloudy", path: "../images/partly_cloudy.png" },
+        { keyword: "mostly cloudy", path: "../images/mostly_cloudy.png" },
+        { keyword: "partly sunny", path: "../images/mostly_cloudy.png" },
+        { keyword: "mostly sunny", path: "../images/mostly_sunny.png" },
+        { keyword: "sunny", path: "../images/sunny.png" },
+        { keyword: "cloudy", path: "../images/cloudy.png" },
+        { keyword: "clear", path: "../images/clear.png" },
+        { keyword: "rain", path: "../images/rain.png" },
+        { keyword: "snow", path: "../images/Snow.png" },
+        { keyword: "storm", path: "../images/storm.png" },
+        { keyword: "fog", path: "../images/fog_or_mist.png" },
+        { keyword: "mist", path: "../images/fog_or_mist.png" },
+        { keyword: "hail", path: "../images/hail.png" },
+        { keyword: "blizzard", path: "../images/fog.png" },
+        { keyword: "sleet", path: "../images/sleet.png" },
+        { keyword: "storms", path: "../images/thunderstorms.png" },
+        { keyword: "thunder", path: "../images/thunderstorms.png" }
+    ];
+
+    // Match forecast with prioritized keywords
+    for (const { keyword, path } of weatherIcons) {
+        if (forecast.includes(keyword)) {
+            iconPath = path;
+            break; // Stop once the first match is found
+        }
+    }
+
+    // Update the src attribute of the weather icon
+    weatherIconElement.src = iconPath;
+
+    // Call changeBackgroundGradient with the necessary parameters
+    const currentTime = new Date().getHours();
+    changeBackgroundGradient(tempElement, conditionElement, currentTime);
 }
 
 
@@ -84,5 +125,7 @@ async function changeBackgroundGradient(temp, cond, time) {
         lightness
     }
 }
+
+
 
 export { updateWeatherDisplay };
