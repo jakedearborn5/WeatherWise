@@ -39,6 +39,8 @@ async function getWeather() {
 
     } catch (error) {
         console.error('Error fetching weather data:', error);
+        await new Promise(r => setTimeout(r, 1000)); //set a timeout of one second
+        getWeather(); //retry getting the weather from the API
     }
 }
 
@@ -58,7 +60,7 @@ function updateWeatherDisplay(weather) {
     tempElement.setAttribute('data-tempFahrenheit', weather.temperature);
     tempElement.setAttribute('data-tempCelsius', Math.round((weather.temperature - 32) * 5 / 9));
     tempElement.textContent = `${weather.temperature}° F`;
-
+    
      // Choose icon based on weather conditions
     let iconPath = "../icons/default.png"; // Default icon path
     const forecast = weather.shortForecast.toLowerCase();
