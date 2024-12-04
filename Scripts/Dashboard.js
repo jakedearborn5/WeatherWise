@@ -6,7 +6,7 @@ const slides = [];
 
 document.addEventListener('DOMContentLoaded', () => {
     getWeather();
-    setupSlides();
+    updateSlidesWithWeather();
 });
 
 document.getElementById('toggles').addEventListener('change', () => {
@@ -36,7 +36,7 @@ async function getWeather() {
         }
 
         // Changing visual elements to current conditions
-        updateWeatherDisplay(currentPeriod[0]);
+        updateWeatherDisplay(currentPeriod);
 
         // Update slides with weather information
         updateSlidesWithWeather(currentPeriod);
