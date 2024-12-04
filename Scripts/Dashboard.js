@@ -1,30 +1,26 @@
 import './LocationSearch.js';
 import { getWeatherForLocation } from './LocationSearch.js';
 
-// Initialize slides array to hold the data for Swiper
-const slides = []; 
-
 document.addEventListener('DOMContentLoaded', () => {
-    getWeatherForUser();
     getWeather();
-    setupSlides();
 });
 
 document.getElementById('toggles').addEventListener('change', () => {
     const toggleUnits = document.getElementById('toggles');
     const tempElement = document.getElementById('temp');
-    if (toggleUnits.checked) { // true when the units are in Fahrenheit
-        toggleUnits.checked = true; // toggle state of the checkbox
+    if (toggleUnits.checked) { //true when the units are in fahrenheit
+        toggleUnits.checked = true; //toggle state of the checkbox
         tempElement.textContent = tempElement.getAttribute('data-tempCelsius') + '° C';
-    } else {
-        toggleUnits.checked = false; // toggle state of the checkbox
+    }
+    else {
+        toggleUnits.checked = false; //toggle state of the checkbox
         tempElement.textContent = tempElement.getAttribute('data-tempFahrenheit') + '° F';
     }
 });
 
 async function getWeather() {
     try {
-        // Get the user's current location [latitude, longitude]
+        // Get the users current location [latitude, longitude]
         const userPosition = await getCurrentLocation();
 
         // Getting the current forecast period
@@ -33,14 +29,8 @@ async function getWeather() {
 
         // Changing visual elements to current conditions
         updateWeatherDisplay(currentPeriod);
-
-        // Update slides with weather information
-        updateSlidesWithWeather(currentPeriod);
-
     } catch (error) {
         console.error('Error fetching weather data:', error);
-        await new Promise(r => setTimeout(r, 1000)); //set a timeout of one second
-        getWeather(); //retry getting the weather from the API
     }
 }
 
@@ -60,7 +50,7 @@ function updateWeatherDisplay(weather) {
     tempElement.setAttribute('data-tempFahrenheit', weather.temperature);
     tempElement.setAttribute('data-tempCelsius', Math.round((weather.temperature - 32) * 5 / 9));
     tempElement.textContent = `${weather.temperature}° F`;
-    
+
      // Choose icon based on weather conditions
     let iconPath = "../icons/default.png"; // Default icon path
     const forecast = weather.shortForecast.toLowerCase();
@@ -102,10 +92,11 @@ function updateWeatherDisplay(weather) {
     changeBackgroundGradient(tempElement, conditionElement, currentTime);
 }
 
+
 /**
- * Gets the user's current location using the geolocation API
- * @returns string[latitude, longitude] - The user's current latitude and longitude coordinates
- */
+* Gets the users current location using the geolocation API
+* @returns string[latitude, longitude] - The users current latitude and longitude coordinates
+*/
 async function getCurrentLocation() {
     return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
@@ -125,64 +116,8 @@ async function getCurrentLocation() {
     });
 }
 
-function setupSlides() {
-    const slideWrapper = document.getElementById('wrapper');
-    
-    // Clear any existing slides before adding new ones
-    slideWrapper.innerHTML = '';
 
-    slides.forEach((slideContent) => {
-        const swiperSlide = document.createElement("div");
-        swiperSlide.setAttribute("class", "swiper-slide");
-
-        const slide = document.createElement("div");
-        slide.setAttribute("class", "m-slide");
-
-        // Check if content is an image URL or text
-        if (typeof slideContent === 'string' && slideContent.includes('http')) {
-            const img = document.createElement('img');
-            img.src = slideContent;
-            img.alt = 'Slide Image';
-            img.style.width = '100%'; // Adjust image size if necessary
-            slide.appendChild(img);
-        } else {
-            slide.textContent = slideContent;
-        }
-
-        swiperSlide.appendChild(slide);
-        slideWrapper.appendChild(swiperSlide);
-    });
-
-    // Initialize the Swiper after adding slides
-    const mySwiper = new Swiper('.swiper-container', {
-        loop: true,
-        effect: 'coverflow',
-        grabCursor: true,
-        centeredSlides: true,
-        slidesPerView: 'auto',
-        coverflowEffect: {
-            rotate: -30,
-            stretch: 0,
-            depth: 200,
-            modifier: 1,
-            slideShadows: false,
-        },
-        pagination: {
-            el: '.swiper-pagination',
-            dynamicBullets: true,
-        }
-    });
-}
-
-function updateSlidesWithWeather(currentPeriod) {
-    // Adding weather information to the slides array
-    slides.push(`Current weather: ${currentPeriod.shortForecast} at ${currentPeriod.temperature}°`);
-    
-    // Re-setup the slides with the updated data
-    setupSlides();
-}
-
-// TODO: changes the background gradient based on the parameters
+//TODO- changes the background gradient based on the parameters
 async function changeBackgroundGradient(temp, cond, time) {
     let conditionsColor, temperatureColor = {
         hue,
