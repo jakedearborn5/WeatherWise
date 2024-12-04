@@ -5,7 +5,6 @@ import { getWeatherForLocation } from './LocationSearch.js';
 const slides = []; 
 
 document.addEventListener('DOMContentLoaded', () => {
-    getWeatherForUser();
     getWeather();
     setupSlides();
 });
