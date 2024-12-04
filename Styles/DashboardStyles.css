@@ -106,7 +106,9 @@ main {
   justify-content: center;
   align-items: flex-start;
   border-radius: 10px;
-  position: relative;
+  position: absolute;
+  top: 17px;
+  right: 20px;
 }
 
 #location-input {

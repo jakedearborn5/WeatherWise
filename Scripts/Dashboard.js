@@ -3,6 +3,7 @@ import { getWeatherForLocation } from './LocationSearch.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     getWeather();
+    updateSlidesWithWeather();
 });
 
 document.getElementById('toggles').addEventListener('change', () => {
@@ -29,6 +30,12 @@ async function getWeather() {
 
         // Changing visual elements to current conditions
         updateWeatherDisplay(currentPeriod);
+
+        // Update slides with weather information
+        updateSlidesWithWeather(currentPeriod);
+
+        // Schedule periodic updates
+        setTimeout(getWeather, 3600000); // Update every hour
     } catch (error) {
         console.error('Error fetching weather data:', error);
     }
