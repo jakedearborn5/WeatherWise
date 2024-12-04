@@ -31,16 +31,22 @@ async function getWeather() {
         let currentPeriod = await getWeatherForLocation(userPosition[0], userPosition[1]);
         currentPeriod.locationName = 'Current Weather';
 
+        if (!currentPeriod) {
+            console.error("No weather data found.");
+            return;
+        }
+
         // Changing visual elements to current conditions
-        updateWeatherDisplay(currentPeriod);
+        updateWeatherDisplay(currentPeriod[0]);
 
         // Update slides with weather information
         updateSlidesWithWeather(currentPeriod);
 
+        // Schedule periodic updates
+        setTimeout(getWeather, 3600000); // Update every hour
     } catch (error) {
         console.error('Error fetching weather data:', error);
-        await new Promise(r => setTimeout(r, 1000)); //set a timeout of one second
-        getWeather(); //retry getting the weather from the API
+        setTimeout(getWeather, 60000); // Retry in 1 minute
     }
 }
 
@@ -131,56 +137,113 @@ function setupSlides() {
     // Clear any existing slides before adding new ones
     slideWrapper.innerHTML = '';
 
-    slides.forEach((slideContent) => {
-        const swiperSlide = document.createElement("div");
-        swiperSlide.setAttribute("class", "swiper-slide");
+    // Loop through each dynamically generated slide content
+    slides.forEach(slideContent => {
+        const swiperSlide = document.createElement('div');
+        swiperSlide.setAttribute('class', 'swiper-slide');
 
-        const slide = document.createElement("div");
-        slide.setAttribute("class", "m-slide");
+        const img = document.createElement('img');
+        img.src = slideContent.iconPath; // Icon path for each slide
+        img.alt = slideContent.shortForecast; // Alt text for weather description
+        img.classList.add('icon-slide');
 
-        // Check if content is an image URL or text
-        if (typeof slideContent === 'string' && slideContent.includes('http')) {
-            const img = document.createElement('img');
-            img.src = slideContent;
-            img.alt = 'Slide Image';
-            img.style.width = '100%'; // Adjust image size if necessary
-            slide.appendChild(img);
-        } else {
-            slide.textContent = slideContent;
-        }
+        const text = document.createElement('p');
+        text.textContent = slideContent.description;
 
-        swiperSlide.appendChild(slide);
+        // Append image and text to the swiperSlide
+        swiperSlide.appendChild(img);
+        swiperSlide.appendChild(text);
+
+        // Append the swiperSlide to the slideWrapper (swiper-wrapper)
         slideWrapper.appendChild(swiperSlide);
     });
 
-    // Initialize the Swiper after adding slides
+    // Reinitialize or initialize the Swiper instance after slides are added
     const mySwiper = new Swiper('.swiper-container', {
         loop: true,
-        effect: 'coverflow',
-        grabCursor: true,
-        centeredSlides: true,
-        slidesPerView: 'auto',
+        centeredSlides: true,  // Ensures active slide is always centered
+        slidesPerView: 1,      // Show 1 slide at a time
+        spaceBetween: 10,      // Space between slides
+        effect: 'coverflow',   // Optional effect
+        grabCursor: true,      // Enable drag cursor
         coverflowEffect: {
-            rotate: -30,
-            stretch: 0,
-            depth: 200,
-            modifier: 1,
-            slideShadows: false,
+            rotate: -30,       // Adjust the angle of the 3D effect
+            stretch: 0,        // Adjust stretch
+            depth: 200,        // Adjust depth for 3D effect
+            modifier: 1,       // Adjust the depth modifier
+            slideShadows: false, // No shadows on the slides
+        },
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
         },
         pagination: {
             el: '.swiper-pagination',
-            dynamicBullets: true,
-        }
+            clickable: true, // Allows clicking on pagination bullets
+        },
     });
 }
 
-function updateSlidesWithWeather(currentPeriod) {
-    // Adding weather information to the slides array
-    slides.push(`Current weather: ${currentPeriod.shortForecast} at ${currentPeriod.temperature}°`);
-    
-    // Re-setup the slides with the updated data
+function updateSlidesWithWeather(weatherData) {
+    // Clear existing slides
+    slides.length = 0; // Empty the slides array
+
+    // Process the weather data and filter important events
+    const importantEvents = extractImportantWeatherEvents(weatherData);
+
+    // Populate the slides array with dynamic content
+    importantEvents.forEach(event => {
+        slides.push({
+            description: `${event.locationName || 'Weather'}: ${event.shortForecast} at ${event.temperature}°`,
+            iconPath: getIconPath(event.shortForecast), // Fetch the icon for the weather condition
+            shortForecast: event.shortForecast,
+        });
+    });
+
+    // Call setupSlides to update the Swiper container with new slides
     setupSlides();
 }
+
+function extractImportantWeatherEvents(weatherData) {
+    return weatherData.filter(event => {
+        const forecast = event.shortForecast.toLowerCase();
+        const temp = event.temperature;
+        const windSpeed = event.windSpeed || 0;
+
+        // Define conditions for "important" weather
+        return (
+            forecast.includes('storm') ||
+            forecast.includes('rain') ||
+            forecast.includes('snow') ||
+            temp < 0 || // Very cold
+            temp > 35 || // Very hot
+            windSpeed > 15 // High winds
+        );
+    });
+}
+
+function getIconPath(forecast) {
+    const lowerForecast = forecast.toLowerCase();
+    const iconMap = {
+        "partly cloudy": "../images/partly_cloudy.png",
+        "mostly cloudy": "../images/mostly_cloudy.png",
+        "sunny": "../images/sunny.png",
+        "rain": "../images/rain.png",
+        "storm": "../images/storm.png",
+        "snow": "../images/snow.png",
+        "fog": "../images/fog_or_mist.png",
+        "clear": "../images/clear.png",
+        // Add other mappings as needed
+    };
+
+    for (const [keyword, iconPath] of Object.entries(iconMap)) {
+        if (lowerForecast.includes(keyword)) {
+            return iconPath;
+        }
+    }
+    return "../images/default.png"; // Default icon if no match
+}
+
 
 // TODO: changes the background gradient based on the parameters
 async function changeBackgroundGradient(temp, cond, time) {
