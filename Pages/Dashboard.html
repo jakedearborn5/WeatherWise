@@ -5,43 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App - Dashboard</title>
     <link rel="stylesheet" href="../Styles/DashboardStyles.css">
+
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+    <!-- Dashboard Script -->
     <script type="module" src="../Scripts/Dashboard.js" defer></script>
 </head>
 
 <body>
     <header class="header">
-            <div>
-                <span id="fahrenheit-label" class="null"></span>
-                <!-- Adds the toggle switch for unit of measurement -->
-                <div class="fx-block">
-                    <div class="toggle">
-                        <div>
-                            <input type="checkbox" id="toggles">
-                            <div data-unchecked="F°" data-checked="C°">
-                            </div>
-                        </div>
+        <div class="header-container">
+            <!-- Temperature Toggle Section -->
+            <div class="fx-block">
+                <div class="toggle">
+                    <div>
+                        <input type="checkbox" id="toggles">
+                        <div data-unchecked="F°" data-checked="C°"></div>
                     </div>
                 </div>
             </div>
+            
+            <!-- Location Search Section -->
             <div class="header__search-container">
                 <input type="text" id="location-input" placeholder="Search Location">
-                <div id="location-suggestions">
-                </div>
+                <div id="location-suggestions"></div>
             </div>
+        </div>
     </header>
+    
     <main>
+        <!-- Weather Overview Section -->
         <section id="weather-overview">
             <h2 id="weather-header">Current Weather</h2>
-            <img id = "weather-icon" src = "weather-icon" alt="Weather Icon">
-            <p>Temperature: <span id="temp">Loading...</span></p>    <!-- Text while loading temperature from API -->
-            <p>Condition: <span id="condition">Loading...</span></p> <!-- Text while loading temperature from API -->
+            <img id="weather-icon" src="weather-icon" alt="Weather Icon">
+            <p>Temperature: <span id="temp">Loading...</span></p>
+            <p>Condition: <span id="condition">Loading...</span></p>
         </section>
-    </main>
-
-   <!-- <footer>
-        <p>Group H's Weather Application for University of Oklahoma's CS 3203: Software Engineering</p>
-    </footer>
-    -->
 
         <!-- Weather Carousel Section -->
 <section id="weather-carousel" class="swiper-container">

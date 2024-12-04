@@ -1,3 +1,4 @@
+/* General Body Styles */
 body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
   background-image: linear-gradient(to bottom right, rgb(255, 145, 0), rgb(0, 179, 255));
@@ -10,6 +11,7 @@ body {
   padding: 0;
 }
 
+/* Header Styles */
 header {
   background-color: #00796b00;
   color: white;
@@ -159,4 +161,120 @@ main {
 #location-suggestion:hover {
   background-color: rgba(255, 255, 255, 0.5);
   cursor: pointer;
+}
+
+/* Swiper Container */
+.swiper-container {
+  width: 40%;
+  max-width: 200px;
+  height: 200px;
+  margin: 10px auto;
+  padding: 100px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  position: relative; /* Ensure that the buttons are positioned relative to this container */
+}
+
+/* Swiper Wrapper */
+.swiper-wrapper {
+display: flex;
+justify-content: center;
+align-items: center;
+}
+
+/* Swiper Slide */
+.swiper-slide {
+width: auto;
+height: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+background-color: rgba(255, 255, 255, 0.2);
+text-align: center;
+margin: 0 3px;
+}
+
+.swiper-slide:hover {
+transform: scale(1.05);
+box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+/* Slide Images */
+.swiper-slide img {
+max-width: 80%;
+max-height: 80%;
+border-radius: 10px;
+}
+
+/* Navigation Buttons (Next & Prev) */
+.swiper-button-next,
+.swiper-button-prev {
+color: white;
+background-color: rgba(0, 0, 0, 0.5);
+border-radius: 50%;
+width: 40px;
+height: 40px;
+display: flex;
+justify-content: center;
+align-items: center;
+box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.4);
+position: absolute;
+top: 50%;
+transform: translateY(-50%);
+transition: background-color 0.3s ease, transform 0.3s ease;
+z-index: 10;
+visibility: visible; /* Ensure visibility */
+}
+
+.swiper-button-next {
+right: 10px; /* Position the Next button to the right */
+}
+
+.swiper-button-prev {
+left: 10px; /* Position the Prev button to the left */
+}
+
+.swiper-button-next:hover,
+.swiper-button-prev:hover {
+background-color: rgba(255, 255, 255, 0.6); /* Lighten on hover */
+transform: scale(1.1);
+}
+
+.swiper-button-next:after,
+.swiper-button-prev:after {
+font-size: 18px;
+font-weight: bold;
+}
+
+/* Pagination Dots */
+.swiper-pagination {
+position: absolute;
+bottom: 10px; /* Position the pagination dots at the bottom of the swiper */
+left: 50%;
+transform: translateX(-50%); /* Center pagination horizontally */
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 5; /* Ensure pagination is not above the navigation buttons */
+}
+
+.swiper-pagination-bullet {
+background: white;
+opacity: 0.6;
+width: 10px;
+height: 10px;
+margin: 0 5px;
+border-radius: 50%;
+transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.swiper-pagination-bullet-active {
+background: rgba(255, 255, 255, 1);
+opacity: 1;
+transform: scale(1.2); /* Slightly increase size of active bullet */
+}
+
+.swiper-pagination-bullet:hover {
+opacity: 1;
+transform: scale(1.2); /* Slightly enlarge the bullet on hover */
 }
