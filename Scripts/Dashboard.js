@@ -81,14 +81,13 @@ function updateWeatherDisplay(weather) {
         { keyword: "clear", path: "../images/clear.png" },
         { keyword: "rain", path: "../images/rain.png" },
         { keyword: "snow", path: "../images/Snow.png" },
-        { keyword: "storm", path: "../images/storm.png" },
         { keyword: "fog", path: "../images/fog_or_mist.png" },
         { keyword: "mist", path: "../images/fog_or_mist.png" },
         { keyword: "hail", path: "../images/hail.png" },
         { keyword: "blizzard", path: "../images/fog.png" },
         { keyword: "sleet", path: "../images/sleet.png" },
         { keyword: "storms", path: "../images/thunderstorms.png" },
-        { keyword: "thunder", path: "../images/thunderstorms.png" }
+        { keyword: ["thunder", "storms", "thunderstorms"], path: "../images/thunderstorms.png" }
     ];
 
     // Match forecast with prioritized keywords
