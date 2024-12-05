@@ -289,31 +289,46 @@ document.addEventListener('DOMContentLoaded', () => {
     const aiButton = document.getElementById('ai-button');
     const aiModal = document.getElementById('ai-modal');
     const closeButton = aiModal.querySelector('.close-button');
+    const chatInput = document.getElementById('chat-input');
+    const sendButton = document.getElementById('send-button');
+    const modalOverlay = document.createElement('div');
 
     if (!aiButton || !aiModal || !closeButton) {
         console.error("One or more elements are missing from the DOM.");
         return;
     }
 
-    // Open the modal
+    modalOverlay.classList.add('modal-overlay');
+    document.body.appendChild(modalOverlay);
+
+    // Open modal and overlay
     aiButton.addEventListener('click', () => {
-        console.log('AI button clicked');
-        aiModal.style.display = 'block'; // Change display to block
+        modalOverlay.style.display = 'flex';
+        aiModal.style.display = 'block';
     });
 
-    // Close the modal
-    closeButton.addEventListener('click', () => {
-        console.log('Close button clicked');
-        aiModal.style.display = 'none'; // Change display to none
-    });
+    // Close modal and overlay
+    const closeModal = () => {
+        modalOverlay.style.display = 'none';
+        aiModal.style.display = 'none';
+    };
 
-    // Close the modal when clicking outside the modal content
-    aiModal.addEventListener('click', (e) => {
-        if (e.target === aiModal) {
-            console.log('Clicked outside modal content');
-            aiModal.style.display = 'none';
+    closeButton.addEventListener('click', closeModal);
+
+    // Close modal when clicking on overlay
+    modalOverlay.addEventListener('click', (e) => {
+        if (e.target === modalOverlay) {
+            closeModal();
         }
     });
+
+    sendButton.addEventListener('click', () => {
+        const message = chatInput.value.trim();
+        if (message) {
+          console.log(message);
+          chatInput.value = ''; // Clear the input
+        }
+      });
 });
 
 export { updateWeatherDisplay };

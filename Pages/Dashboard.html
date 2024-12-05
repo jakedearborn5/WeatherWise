@@ -76,10 +76,23 @@
     </button>
 
     <!-- AI chat modal -->
-    <div id="ai-modal" class="modal" style="display: none;"> <!-- Add display:none to hide initially -->
+    <div id="ai-modal" class="modal" style="display: none;">
         <div class="modal-content">
-            <span class="close-button">&times;</span>
-            <p>Welcome to the AI Modal!</p>
+            <!-- Header, where the title and x button are -->
+            <div class="modal-header">
+                <h2 style="display: inline;">AI Chat</h2>
+                <sspan class="close-button">&times;</span>
+            </div>
+            <!-- Body, where the AI chat will take place -->
+            <div class="modal-body">
+                <!-- TODO: Placeholder for AI chat -->
+                <p>The AI chat will go here!</p>
+            </div>
+            <!-- Footer containing user chat -->
+            <div class="modal-footer">
+                <textarea id="chat-input" maxlength="300" placeholder="Type your message (max 300 characters)"></textarea>
+                <button id="send-button">Send</button>
+              </div>
         </div>
     </div>
 </body>
