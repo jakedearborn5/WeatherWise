@@ -286,6 +286,36 @@ async function changeBackgroundGradient(temp, cond, time) {
     }
 }
 
+document.addEventListener('DOMContentLoaded', () => {
+    const aiButton = document.getElementById('ai-button');
+    const aiModal = document.getElementById('ai-modal');
+    const closeButton = aiModal.querySelector('.close-button');
+
+    if (!aiButton || !aiModal || !closeButton) {
+        console.error("One or more elements are missing from the DOM.");
+        return;
+    }
+
+    // Open the modal
+    aiButton.addEventListener('click', () => {
+        console.log('AI button clicked');
+        aiModal.style.display = 'flex';
+    });
+
+    // Close the modal
+    closeButton.addEventListener('click', () => {
+        console.log('Close button clicked');
+        aiModal.style.display = 'none';
+    });
+
+    // Close the modal when clicking outside the modal content
+    aiModal.addEventListener('click', (e) => {
+        if (e.target === aiModal) {
+            console.log('Clicked outside modal content');
+            aiModal.style.display = 'none';
+        }
+    });
+});
 
 
 export { updateWeatherDisplay };
