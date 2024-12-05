@@ -276,7 +276,6 @@ function getIconPath(forecast) {
     return "../images/default.png"; // Default icon if no match
 }
 
-
 // TODO: changes the background gradient based on the parameters
 async function changeBackgroundGradient(temp, cond, time) {
     let conditionsColor, temperatureColor = {
@@ -316,6 +315,5 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
-
 
 export { updateWeatherDisplay };
