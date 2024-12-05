@@ -104,11 +104,10 @@ main {
 /* Swiper Container */
 .swiper-container {
   width: 40%;
-  max-width: 200px;
-  height: 200px;
+  max-width: 100px;
+  height: 100px;
   margin: 10px auto;
-  padding: 100px;
-  border-radius: 10px;
+  padding: 0px;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   /* Ensure that the buttons are positioned relative to this container */
@@ -121,6 +120,8 @@ main {
   align-items: center;
 }
 
+
+
 /* Swiper Slide */
 .swiper-slide {
   width: auto;
@@ -131,6 +132,7 @@ main {
   background-color: rgba(255, 255, 255, 0.2);
   text-align: center;
   margin: 0 3px;
+  border-radius: 10px;
 }
 
 .swiper-slide:hover {
@@ -140,9 +142,10 @@ main {
 
 /* Slide Images */
 .swiper-slide img {
-  max-width: 80%;
-  max-height: 80%;
-  border-radius: 10px;
+  padding: 2px;
+  max-width: 75%;
+  max-height: 75%;
+  border-radius: 0px;
 }
 
 /* Navigation Buttons (Next & Prev) */
@@ -208,7 +211,7 @@ main {
   background: white;
   opacity: 0.6;
   width: 10px;
-  height: 10px;
+  height: 10px; 
   margin: 0 5px;
   border-radius: 50%;
   transition: opacity 0.3s ease, transform 0.3s ease;
