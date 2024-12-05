@@ -70,34 +70,68 @@ function updateWeatherDisplay(weather) {
     let iconPath = "../icons/default.png"; // Default icon path
     const forecast = weather.shortForecast.toLowerCase();
 
-    // Define a prioritized mapping of keywords to icon paths
-    const weatherIcons = [
-        { keyword: "partly cloudy", path: "../images/partly_cloudy.png" },
-        { keyword: "mostly cloudy", path: "../images/mostly_cloudy.png" },
-        { keyword: "partly sunny", path: "../images/mostly_cloudy.png" },
-        { keyword: "mostly sunny", path: "../images/mostly_sunny.png" },
-        { keyword: "sunny", path: "../images/sunny.png" },
-        { keyword: "cloudy", path: "../images/cloudy.png" },
-        { keyword: "clear", path: "../images/clear.png" },
-        { keyword: "rain", path: "../images/rain.png" },
-        { keyword: "snow", path: "../images/Snow.png" },
-        { keyword: "fog", path: "../images/fog_or_mist.png" },
-        { keyword: "mist", path: "../images/fog_or_mist.png" },
-        { keyword: "hail", path: "../images/hail.png" },
-        { keyword: "blizzard", path: "../images/fog.png" },
-        { keyword: "sleet", path: "../images/sleet.png" },
-        { keyword: "storms", path: "../images/thunderstorms.png" },
-        { keyword: ["thunder", "storms", "thunderstorms"], path: "../images/thunderstorms.png" }
-    ];
-
-    // Match forecast with prioritized keywords
-    for (const { keyword, path } of weatherIcons) {
-        if (forecast.includes(keyword)) {
-            iconPath = path;
-            break; // Stop once the first match is found
+    if(weather.isDaytime) {
+        console.log('Daytime logic running...');
+        // Define a prioritized mapping of keywords to icon paths
+        const weatherIcons = [
+            { keyword: "fog",  path: "../images/fog_or_mist.png" },
+            { keyword: "haze",  path: "../images/haze.png" },
+            { keyword: "sleet", path: "../images/sleet.png" },
+            { keyword: "freezing rain", path: "../images/sleet.png" },
+            { keyword: "rain", path: "../images/rain.png" },
+            { keyword: "scattered showers", path: "../images/scattered_showers.png"},
+            { keyword: "drizzle", path: "../images/drizzle.png"},
+            { keyword: "snow", path: "../images/snow.png" },
+            { keyword: "hail", path: "../images/hail.png" },
+            { keyword: "blizzard", path: "../images/blizzard.png" },
+            { keyword: "thunderstorms", path: "../images/thunderstorms.png" },
+            { keyword: "thunder",  path: "../images/thunderstorms.png" },
+            { keyword: "storms",  path: "../images/thunderstorms.png" },
+            { keyword: "partly cloudy",  path: "../images/partly_cloudy.png" },
+            { keyword: "mostly cloudy", path: "../images/mostly_cloudy.png" },
+            { keyword: "mostly sunny", path: "../images/mostly_sunny.png" },
+            { keyword: "partly sunny", path: "../images/mostly_cloudy.png"},
+            { keyword: "sunny", path: "../images/sunny.png" },
+            { keyword: "cloudy", path: "../images/cloudy.png" }
+        ];
+        // Match forecast with prioritized keywords
+        for (const { keyword, path } of weatherIcons) {
+            if (forecast.includes(keyword)) {
+                iconPath = path;
+                break; // Stop once the first match is found
+            }
         }
     }
-
+    else {
+        console.log('isDaytime is either false or undefined.');
+        const weatherIcons = [
+            { keyword: "fog",  path: "../images/fog_or_mist.png" },
+            { keyword: "haze",  path: "../images/haze.png" },
+            { keyword: "sleet", path: "../images/sleet.png" },
+            { keyword: "freezing rain", path: "../images/sleet.png" },
+            { keyword: "rain", path: "../images/rain.png" },
+            { keyword: "snow", path: "../images/snow.png" },
+            { keyword: "hail", path: "../images/hail.png" },
+            { keyword: "blizzard", path: "../images/blizzard.png" },
+            { keyword: "thunderstorms", path: "../images/thunderstorms.png" },
+            { keyword: "thunder",  path: "../images/thunderstorms.png" },
+            { keyword: "storms",  path: "../images/thunderstorms.png" },
+            { keyword: "isolated clouds", path: "../images/isolated_clouds_night.png"},
+            { keyword: "mostly clear", path: "../images/partly_cloudy_night.png" },
+            { keyword: "partly cloudy",  path: "../images/partly_cloudy_night.png" },
+            { keyword: "mostly cloudy",  path: "../images/isolated_clouds_night.png"},
+            { keyword: "partly clear", path: "../images/isolated_clouds_night.png"},
+            { keyword: "clear", path: "../images/clear.png" },
+            { keyword: "cloudy", path: "../images/cloudy.png" }
+        ];
+        // Match forecast with prioritized keywords
+        for (const { keyword, path } of weatherIcons) {
+            if (forecast.includes(keyword)) {
+                iconPath = path;
+                break; // Stop once the first match is found
+        }
+    }
+    }
     // Update the src attribute of the weather icon
     weatherIconElement.src = iconPath;
 
