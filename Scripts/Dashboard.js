@@ -298,13 +298,13 @@ document.addEventListener('DOMContentLoaded', () => {
     // Open the modal
     aiButton.addEventListener('click', () => {
         console.log('AI button clicked');
-        aiModal.style.display = 'flex';
+        aiModal.style.display = 'block'; // Change display to block
     });
 
     // Close the modal
     closeButton.addEventListener('click', () => {
         console.log('Close button clicked');
-        aiModal.style.display = 'none';
+        aiModal.style.display = 'none'; // Change display to none
     });
 
     // Close the modal when clicking outside the modal content
