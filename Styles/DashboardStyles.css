@@ -294,11 +294,13 @@ transform: scale(1.2); /* Slightly enlarge the bullet on hover */
   z-index: 2; /* Ensure modal is above overlay */
 }
 
+/* Top part of the modal, containing title and 'x' */
 .modal-header {
   padding: 1rem;
   background-color: rgb(0, 0, 0); /* Slightly darker header */
 }
 
+/* Modal's 'x' button */
 .close-button {
   color: white;
   float: right;
@@ -313,6 +315,8 @@ transform: scale(1.2); /* Slightly enlarge the bullet on hover */
   cursor: pointer;
 }
 
+/* Middle part of the modal, where the AI chat bot resides */
+/* TODO: Change formatting for AI chat */
 .modal-body {
   flex: 1;
   padding: 1rem;
@@ -321,6 +325,7 @@ transform: scale(1.2); /* Slightly enlarge the bullet on hover */
   color: white;
 }
 
+/* Bottom part of modal, where the textbox and send button reside */
 .modal-footer {
   display: flex;
   align-items: center;
@@ -329,6 +334,7 @@ transform: scale(1.2); /* Slightly enlarge the bullet on hover */
   border-top: 1px solid rgb(20, 20, 20);
 }
 
+/* Textbox for the AI chat */
 #chat-input {
   flex: 1;
   width: calc(100% - 100px); /* Adjusted width to leave space for the button */
@@ -343,6 +349,7 @@ transform: scale(1.2); /* Slightly enlarge the bullet on hover */
   color: white /* Input text color */
 }
 
+/* Button to send the AI chat bot the inputted text */
 #send-button {
   width: 80px;
   height: 50px;
