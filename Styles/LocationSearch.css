@@ -1,0 +1,59 @@
+/* Location Search Bar */
+.header__search-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    border-radius: 10px;
+    position: relative;
+}
+
+#location-input {
+    width: 100%;
+    padding: 10px 10px 5px 10px;
+    border: none;
+    background-color: rgba(255, 255, 255, 0.2);
+    color: white;
+    box-sizing: border-box;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    outline: none;
+}
+
+.header__search-input:focus {
+    outline: none;
+}
+
+#location-suggestions {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: .2rem 0;
+    background-color: rgba(255, 255, 255, 0.2);
+    border: none;
+    width: 100%;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    font-weight: 600;
+    position: absolute;
+    top: 100%;
+}
+
+#location-suggestion {
+    padding: 5px 10px;
+    cursor: pointer;
+    color: #fff;
+    font-size: .8rem;
+    border-bottom: 1px solid #ccc;
+    width: 90%;
+}
+
+#location-suggestion:last-child {
+    border-bottom: none;
+}
+
+#location-suggestion:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}

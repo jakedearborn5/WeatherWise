@@ -2,6 +2,7 @@ import { updateWeatherDisplay } from './Dashboard.js';
 
 // List of locations to suggest to the user
 const locations = [
+    { name: "Current Location", latitude: 0, longitude: 0 },
     { name: 'New York, NY', latitude: 40.7128, longitude: -74.0060 },
     { name: 'Los Angeles, CA', latitude: 34.0522, longitude: -118.2437 },
     { name: 'Chicago, IL', latitude: 41.8781, longitude: -87.6298 },
@@ -46,12 +47,27 @@ const displaySuggestions = (suggestions) => {
         suggestionElement.id = "location-suggestion";
         suggestionElement.textContent = suggestion.name;
 
+        // When a suggestion is clicked, update the input field and fetch weather data
         suggestionElement.addEventListener('click', async () => {
             locationInput.value = suggestion.name;
             suggestionsContainer.innerHTML = '';
-            // Fetch weather for selected location
-            const weather = await getWeatherForLocation(suggestion.latitude, suggestion.longitude, suggestion.name);
-            updateWeatherDisplay(weather);
+
+            // If the user selects 'Current Location', get current lat/lon values and fetch weather
+            if (suggestion.name === 'Current Location') {
+                if ("geolocation" in navigator) {
+                    navigator.geolocation.getCurrentPosition(async (position) => {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+                        const weather = await getWeatherForLocation(latitude, longitude, 'Current Location');
+                        updateWeatherDisplay(weather);
+                    });
+                }
+            }
+            else {
+                // Fetch weather for selected location
+                const weather = await getWeatherForLocation(suggestion.latitude, suggestion.longitude, suggestion.name);
+                updateWeatherDisplay(weather);
+            }
         });
 
         suggestionsContainer.appendChild(suggestionElement);
@@ -63,15 +79,18 @@ locationInput.addEventListener('input', (e) => {
     e.preventDefault();
     const locationInputValue = e.target.value;
     let suggestions = [];
+
+    // If the input is empty, display the first 5 locations
     if (!locationInputValue) {
         suggestions = locations.slice(0, 5);
-
     }
     else {
         suggestions = locations.filter(location =>
             location.name.toLowerCase().startsWith(locationInputValue.toLowerCase())
         ).slice(0, 5);
     }
+
+    // Display the suggestions
     displaySuggestions(suggestions);
 });
 
@@ -89,20 +108,23 @@ locationInput.addEventListener('focus', () => {
 
 /**
  * Get the weather for a specific location
- * @param {*} latitude 
- * @param {*} longitude 
+ * @param {*} latitude Latitude of the location
+ * @param {*} longitude Longitude of the location
  * @param {*} name  The name of the location
- * @returns 
+ * @returns  The weather data for the location
  */
 async function getWeatherForLocation(latitude, longitude, name) {
     try {
         const pointResponse = await fetch(`https://api.weather.gov/points/${latitude},${longitude}`);
         const pointData = await pointResponse.json();
+
         const forecastUrl = pointData.properties.forecast;
         const forecastResponse = await fetch(forecastUrl);
         const forecastData = await forecastResponse.json();
+
         let weather = forecastData.properties.periods[0];
         weather.locationName = name;
+
         return weather;
     } catch (error) {
         console.error('Error fetching weather data:', error);
