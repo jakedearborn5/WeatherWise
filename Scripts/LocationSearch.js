@@ -50,6 +50,7 @@ const displaySuggestions = (suggestions) => {
             locationInput.value = suggestion.name;
             suggestionsContainer.innerHTML = '';
             // Fetch weather for selected location
+            getHourWeather(suggestion.latitude, suggestion.longitude);
             const weather = await getWeatherForLocation(suggestion.latitude, suggestion.longitude, suggestion.name);
             updateWeatherDisplay(weather);
         });

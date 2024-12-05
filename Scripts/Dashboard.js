@@ -56,7 +56,7 @@ function updateWeatherDisplay(weather) {
 * Gets the users current location using the geolocation API
 * @returns string[latitude, longitude] - The users current latitude and longitude coordinates
 */
-async function getCurrentLocation() {
+export async function getCurrentLocation() {
     return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
