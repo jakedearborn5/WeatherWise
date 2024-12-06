@@ -124,9 +124,7 @@ function updateWeatherDisplay() {
     weatherIconElement.src = iconPath;
     console.log(iconPath);
 
-    // Call changeBackgroundGradient with the necessary parameters
-    const currentTime = new Date().getHours();
-    changeBackgroundGradient(tempElement, conditionElement, currentTime);
+    changeBackgroundGradient();
 }
 
 /**
@@ -265,13 +263,29 @@ function getIconPath(forecast) {
     return "../images/default.png"; // Default icon if no match
 }
 
-// TODO: changes the background gradient based on the parameters
-async function changeBackgroundGradient(temp, cond, time) {
-    let conditionsColor, temperatureColor = {
-        hue,
-        saturation,
-        lightness
+function changeBackgroundGradient() {
+    const isDaytime = weatherStore.weatherInfo.isDaytime;
+    const forecast = weatherStore.weatherInfo.shortForecast.toLowerCase();
+    let conditionsColor, timeOfDayColor;
+
+    // Determine color based on time of day
+    if (!isDaytime) {
+        timeOfDayColor = 'hsl(210, 100%, 20%)'; // Darker blue for night
+    } else {
+        timeOfDayColor = 'hsl(210, 100%, 50%)'; // Lighter blue for day
     }
+
+    // Determine color based on weather conditions
+    if (forecast.includes('rain') || forecast.includes('storm')) {
+        conditionsColor = 'hsl(0, 0%, 50%)'; // Gray for rain/storm
+    } else if (forecast.includes('cloud')) {
+        conditionsColor = 'hsl(0, 0%, 70%)'; // Lighter gray for cloudy
+    } else {
+        conditionsColor = 'hsl(210, 100%, 30%)'; // Blue for clear
+    }
+
+    // Apply gradient background
+    document.body.style.background = `linear-gradient(${timeOfDayColor}, ${conditionsColor})`;
 }
 
 export { updateWeatherDisplay };
