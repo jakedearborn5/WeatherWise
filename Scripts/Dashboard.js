@@ -1,6 +1,6 @@
 import './LocationSearch.js';
-//import { getWeatherForLocation } from './LocationSearch.js';
 import weatherStore, { getHourWeather } from './WeatherLogic.js';
+import { addAllRecs } from './recommendations.js';
 
 // Initialize slides array to hold the data for Swiper
 const slides = []; 
@@ -16,7 +16,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Updating UI using data in weatherStore.weatherInfo
     updateWeatherDisplay()
 
-    updateSlidesWithWeather(); // Jacob you won't need to pass an argument through this anymore
+    addAllRecs();
+
+    //updateSlidesWithWeather(); // Jacob you won't need to pass an argument through this anymore
 });
 
 // Toggling between fahrenheit and celcius
@@ -33,14 +35,12 @@ document.getElementById('toggles').addEventListener('change', () => {
 });
 
 function updateWeatherDisplay() {
-    const weatherHeaderElement = document.getElementById('weather-header');
     const tempElement = document.getElementById('temp');
     const conditionElement = document.getElementById('condition');
     const weatherIconElement = document.getElementById('weather-icon');
     const windElement = document.getElementById('wind-speed');
     const chanceOfRainElement = document.getElementById('chance-rain');
 
-    weatherHeaderElement.textContent = 'Current Weather'; // We were defaulting to this in getWeather so I kept it that way, feel free to change -R
     conditionElement.textContent = weatherStore.weatherInfo.shortForecast;
     windElement.textContent = weatherStore.weatherInfo.windSpeed;
     chanceOfRainElement.textContent = weatherStore.weatherInfo.rainChance;
@@ -48,7 +48,6 @@ function updateWeatherDisplay() {
     {
         chanceOfRainElement.textContent = 0;
     }
-    console.log('chance rain', weatherStore.weatherInfo.rainChance);
     tempElement.setAttribute('data-tempFahrenheit', weatherStore.weatherInfo.temperature);
     tempElement.setAttribute('data-tempCelsius', Math.round((weatherStore.weatherInfo.temperature - 32) * 5 / 9));
     tempElement.textContent = `${weatherStore.weatherInfo.temperature}° F`;
@@ -184,7 +183,6 @@ function updateWeatherDisplay() {
 
     // Update the src attribute of the weather icon
     weatherIconElement.src = iconPath;
-    console.log(iconPath);
 
     changeBackgroundGradient();
 }

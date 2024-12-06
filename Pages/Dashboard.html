@@ -10,10 +10,17 @@
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js" defer></script>
+
+    <!-- Weather Logic Script -->
     <script type="module" src="../Scripts/WeatherLogic.js"></script>
 
     <!-- Dashboard Script -->
     <script type="module" src="../Scripts/Dashboard.js" defer></script>
+
+    <!-- Recommendations Script -->
+    <script type="module" src="../Scripts/recommendations.js"></script>
 
     <!-- AI Modal Script -->
     <script type="module" src="../Scripts/AIModal.js" defer></script>
@@ -54,7 +61,6 @@
                 <span id="chance-rain", %></span>%</span>
             </div>
             <h1 id = "location-display">Current Location</h1>
-            <h2 id="weather-header">Current Weather</h2>
             <img id="weather-icon" src="weather-icon" alt="Weather Icon">
             <p>Temperature: <span id="temp">Loading...</span></p>
             <p>Condition: <span id="condition">Loading...</span></p>
@@ -64,19 +70,6 @@
         <!-- Weather Carousel Section -->
 <section id="weather-carousel" class="swiper-container">
     <div class="swiper-wrapper" id="wrapper">
-        <!-- Example of dynamically added slides -->
-        <div class="swiper-slide">
-            <img src="../images/sunny.png" alt="Sunny Weather">
-            <p>8am - 12pm</p>
-        </div>
-        <div class="swiper-slide">
-            <img src="../images/cloudy.png" alt="Cloudy Weather">
-            <p>12pm - 4pm</p>
-        </div>
-        <div class="swiper-slide">
-            <img src="../images/rain.png" alt="Rainy Weather">
-            <p>4pm - 8pm</p>
-        </div>
     </div>
     <!-- Navigation arrows -->
     <div class=".swiper-button-next"></div>
@@ -84,9 +77,6 @@
     <!-- Pagination -->
     <div class = ".swiper-pagination"></div>
 </section>
-
-    <!-- Swiper JS -->
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js" defer></script>
 
     <!-- Button for AI chat modal -->
     <button id="ai-button" class="floating-button">

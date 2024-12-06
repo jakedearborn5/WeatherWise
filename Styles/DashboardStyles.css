@@ -1,7 +1,7 @@
 /* General Body Styles */
 body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background-image: linear-gradient(to bottom right, rgb(255, 145, 0), rgb(0, 179, 255)); 
+  background-image: linear-gradient(hsl(210, 100%, 50%), hsl(210, 100%, 30%)); 
   background-repeat: no-repeat;
   background-size: 100% 100%;
   min-height: 100vh;
