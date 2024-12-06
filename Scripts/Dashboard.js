@@ -6,7 +6,6 @@ import { addAllRecs } from './recommendations.js';
 const slides = []; 
 
 document.addEventListener('DOMContentLoaded', async () => {
-
     // Getting location of the user
     const userPosition = await getCurrentLocation();
 
@@ -17,14 +16,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     updateWeatherDisplay()
 
     addAllRecs();
-
-    //updateSlidesWithWeather(); // Jacob you won't need to pass an argument through this anymore
 });
 
 // Toggling between fahrenheit and celcius
 document.getElementById('toggles').addEventListener('change', () => {
     const toggleUnits = document.getElementById('toggles');
     const tempElement = document.getElementById('temp');
+
     if (toggleUnits.checked) { // true when the units are in Fahrenheit
         toggleUnits.checked = true; // toggle state of the checkbox
         tempElement.textContent = tempElement.getAttribute('data-tempCelsius') + '° C';
@@ -44,16 +42,16 @@ function updateWeatherDisplay() {
     conditionElement.textContent = weatherStore.weatherInfo.shortForecast;
     windElement.textContent = weatherStore.weatherInfo.windSpeed;
     chanceOfRainElement.textContent = weatherStore.weatherInfo.rainChance;
-    if(!weatherStore.weatherInfo.rainChance)
-    {
+    
+    if(!weatherStore.weatherInfo.rainChance) {
         chanceOfRainElement.textContent = 0;
     }
+
     tempElement.setAttribute('data-tempFahrenheit', weatherStore.weatherInfo.temperature);
     tempElement.setAttribute('data-tempCelsius', Math.round((weatherStore.weatherInfo.temperature - 32) * 5 / 9));
     tempElement.textContent = `${weatherStore.weatherInfo.temperature}° F`;
     
-    
-     // Choose icon based on weather conditions
+    // Choose icon based on weather conditions
     let iconPath = "../icons/default.png"; // Default icon path
     const forecast = weatherStore.weatherInfo.shortForecast.toLowerCase();
 
@@ -61,8 +59,8 @@ function updateWeatherDisplay() {
         console.log('Daytime logic running...');
         // Define a prioritized mapping of keywords to icon paths
         const weatherIcons = [
-            { keyword: "fog",  path: "../images/fog_or_mist.png" },
-            { keyword: "haze",  path: "../images/haze.png" },
+            { keyword: "fog", path: "../images/fog_or_mist.png" },
+            { keyword: "haze", path: "../images/haze.png" },
             { keyword: "sleet", path: "../images/sleet.png" },
             { keyword: "freezing rain", path: "../images/sleet.png" },
             { keyword: "rain", path: "../images/rain.png" },
@@ -72,15 +70,16 @@ function updateWeatherDisplay() {
             { keyword: "hail", path: "../images/hail.png" },
             { keyword: "blizzard", path: "../images/blizzard.png" },
             { keyword: "thunderstorms", path: "../images/thunderstorms.png" },
-            { keyword: "thunder",  path: "../images/thunderstorms.png" },
-            { keyword: "storms",  path: "../images/thunderstorms.png" },
-            { keyword: "partly cloudy",  path: "../images/partly_cloudy.png" },
+            { keyword: "thunder", path: "../images/thunderstorms.png" },
+            { keyword: "storms", path: "../images/thunderstorms.png" },
+            { keyword: "partly cloudy", path: "../images/partly_cloudy.png" },
             { keyword: "mostly cloudy", path: "../images/mostly_cloudy.png" },
             { keyword: "mostly sunny", path: "../images/mostly_sunny.png" },
             { keyword: "partly sunny", path: "../images/mostly_cloudy.png"},
             { keyword: "sunny", path: "../images/sunny.png" },
             { keyword: "cloudy", path: "../images/cloudy.png" }
         ];
+
         // Match forecast with prioritized keywords
         for (const { keyword, path } of weatherIcons) {
             if (forecast.includes(keyword)) {
@@ -91,8 +90,8 @@ function updateWeatherDisplay() {
     } else {
         console.log('isDaytime is either false or undefined.');
         const weatherIcons = [
-            { keyword: "fog",  path: "../images/fog_or_mist.png" },
-            { keyword: "haze",  path: "../images/haze.png" },
+            { keyword: "fog", path: "../images/fog_or_mist.png" },
+            { keyword: "haze", path: "../images/haze.png" },
             { keyword: "sleet", path: "../images/sleet.png" },
             { keyword: "freezing rain", path: "../images/sleet.png" },
             { keyword: "rain", path: "../images/rain.png" },
@@ -100,16 +99,17 @@ function updateWeatherDisplay() {
             { keyword: "hail", path: "../images/hail.png" },
             { keyword: "blizzard", path: "../images/blizzard.png" },
             { keyword: "thunderstorms", path: "../images/thunderstorms.png" },
-            { keyword: "thunder",  path: "../images/thunderstorms.png" },
-            { keyword: "storms",  path: "../images/thunderstorms.png" },
+            { keyword: "thunder", path: "../images/thunderstorms.png" },
+            { keyword: "storms", path: "../images/thunderstorms.png" },
             { keyword: "isolated clouds", path: "../images/isolated_clouds_night.png"},
             { keyword: "mostly clear", path: "../images/partly_cloudy_night.png" },
-            { keyword: "partly cloudy",  path: "../images/partly_cloudy_night.png" },
-            { keyword: "mostly cloudy",  path: "../images/mostly_cloudy_night.png"},
+            { keyword: "partly cloudy", path: "../images/partly_cloudy_night.png" },
+            { keyword: "mostly cloudy", path: "../images/mostly_cloudy_night.png"},
             { keyword: "partly clear", path: "../images/mostly_cloudy_night.png"},
             { keyword: "clear", path: "../images/clear.png" },
             { keyword: "cloudy", path: "../images/cloudy.png" }
         ];
+
         // Match forecast with prioritized keywords
         for (const { keyword, path } of weatherIcons) {
             if (forecast.includes(keyword)) {
@@ -126,8 +126,8 @@ function updateWeatherDisplay() {
 
     const numberOfAlerts = weatherStore.weatherInfo.alerts.length;
 
+    // Create and insert the title if it doesn't exist
     if (!alertTitle) {
-        // Create and insert the title if it doesn't exist
         alertTitle = document.createElement('h2');
         alertTitle.id = 'alert-title'; // Assign an ID to identify it later
         alertTitle.style.textAlign = 'center'; // Center the title

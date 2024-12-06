@@ -4,26 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App - Dashboard</title>
-    <link rel="stylesheet" href="../Styles/DashboardStyles.css">
-    <link rel="stylesheet" href="../Styles/LocationSearch.css">
-    <link rel="stylesheet" href="../Styles/AIModal.css">
-    <!-- Swiper CSS -->
+
+    <!-- Swiper Files -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js" defer></script>
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
-    <!-- Swiper JS -->
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js" defer></script>
-
-    <!-- Weather Logic Script -->
-    <script type="module" src="../Scripts/WeatherLogic.js"></script>
-
-    <!-- Dashboard Script -->
+    <!-- Dashboard Files -->
     <script type="module" src="../Scripts/Dashboard.js" defer></script>
+    <link rel="stylesheet" href="../Styles/DashboardStyles.css">
 
-    <!-- Recommendations Script -->
+    <!-- AI Modal Files -->
+    <script type="module" src="../Scripts/AIModal.js" defer></script>
+    <link rel="stylesheet" href="../Styles/AIModal.css">
+
+    <!-- Misc Scripts -->
+    <script type="module" src="../Scripts/WeatherLogic.js"></script>
     <script type="module" src="../Scripts/recommendations.js"></script>
 
-    <!-- AI Modal Script -->
-    <script type="module" src="../Scripts/AIModal.js" defer></script>
+    <!-- Misc Styles-->
+    <link rel="stylesheet" href="../Styles/LocationSearch.css">
 </head>
 
 <body>
@@ -48,7 +47,6 @@
     </header>
     
     <main>
-
         <!-- Weather Alert Section -->
         <div id="weather-alert">
             <div id="alert-container"></div>
@@ -57,8 +55,8 @@
         <!-- Weather Overview Section -->
         <section id="weather-overview">
             <div id="chance-of-precipitation">
-                <img src="../images/tinyrain.png">
-                <span id="chance-rain", %></span>%</span>
+                <img src="../images/tinyrain.png" alt="Rain Icon">
+                <span id="chance-rain"></span>%</span>
             </div>
             <h1 id = "location-display">Current Location</h1>
             <img id="weather-icon" src="weather-icon" alt="Weather Icon">
@@ -68,35 +66,33 @@
         </section>
 
         <!-- Weather Carousel Section -->
-<section id="weather-carousel" class="swiper-container">
-    <div class="swiper-wrapper" id="wrapper">
-    </div>
-    <!-- Navigation arrows -->
-    <div class=".swiper-button-next"></div>
-    <div class=".swiper-button-prev"></div>
-    <!-- Pagination -->
-    <div class = ".swiper-pagination"></div>
-</section>
+        <section id="weather-carousel" class="swiper-container">
+            <div class="swiper-wrapper" id="wrapper"></div>
+            <!-- Navigation arrows -->
+            <div class=".swiper-button-next"></div>
+            <div class=".swiper-button-prev"></div>
+            <!-- Pagination -->
+            <div class = ".swiper-pagination"></div>
+        </section>
 
-    <!-- Button for AI chat modal -->
-    <button id="ai-button" class="floating-button">
-        <img src="../images/ai.png" alt="AI Icon" />
-    </button>
+        <!-- Button for AI chat modal -->
+        <button id="ai-button" class="floating-button">
+            <img src="../images/ai.png" alt="AI Icon" />
+        </button>
 
-    <!-- AI chat modal -->
-    <div id="ai-modal" class="modal" style="display: none;">
-        <div class="modal-content">
-            <!-- Header, where the title and x button are -->
-            <div class="modal-header">
-                <h2 style="display: inline;">AI Chat</h2>
-                <sspan class="close-button">&times;</span>
-            </div>
-            <!-- Body, where the AI chat will take place -->
+        <!-- AI chat modal -->
+        <div id="ai-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <!-- Header -->
+                <div class="modal-header">
+                    <h2 style="display: inline;">AI Chat</h2>
+                    <span class="close-button">&times;</span>
+                </div>
+            <!-- Body -->
             <div class = "modal-body" id ="chat-log">
-                <!-- TODO: Placeholder for AI chat -->
                 <p>This is the start of your conversation with the WeatherWise Bot!</p>
             </div>
-            <!-- Footer containing user chat -->
+            <!-- Footer -->
             <div class="modal-footer">
                 <textarea id="chat-input" maxlength="300" placeholder="Type your message (max 300 characters)"></textarea>
                 <button id="send-button">Send</button>
