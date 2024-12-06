@@ -154,6 +154,13 @@ function generateRecommendations() {
         );
     }
 
+    if (weatherStore.weatherInfo.shortForecast.toLowerCase().includes("sunny"))
+    {
+        weatherStore.recommendations.accessories.push(
+            {imagePath: "../images/sunglasses.png", description: "Sunglasses"}
+        );
+    }
+
 }
 
 export default weatherStore;
