@@ -1,3 +1,12 @@
+// SECURITY: 
+// - Prevent injection attacks or unexpected behavior by only allowing 
+// the user to select from a predefined list of locations.
+// - Geolocation API is only used with user consent and is not stored or shared.
+
+
+// RELIABILITY: By using try/catch blocks inside the getWeatherForLocation function, we can
+// catch any errors that occur when fetching weather data and return a default value or error message.
+
 import { updateWeatherDisplay } from './Dashboard.js';
 
 // List of locations to suggest to the user
@@ -41,7 +50,10 @@ const locationInput = document.getElementById('location-input');
 
 // Display suggestions based on user input
 const displaySuggestions = (suggestions) => {
+    // Clear the suggestions container
     suggestionsContainer.innerHTML = '';
+
+    // Display the suggestions
     suggestions.forEach((suggestion) => {
         const suggestionElement = document.createElement('div');
         suggestionElement.id = "location-suggestion";
@@ -73,6 +85,9 @@ const displaySuggestions = (suggestions) => {
 
         suggestionsContainer.appendChild(suggestionElement);
     });
+
+    // Remove hidden class to display the suggestions container
+    suggestionsContainer.classList.remove('hidden');
 };
 
 // Listen for input on the location input field
@@ -97,8 +112,9 @@ locationInput.addEventListener('input', (e) => {
 
 // Close suggestions when clicking outside of the suggestions container
 document.addEventListener('click', (e) => {
-    if (!suggestionsContainer.contains(e.target) && e.target.id !== 'location-input') {
-        suggestionsContainer.innerHTML = '';
+    if (e.target.id !== 'location-input') {
+        // Clear suggestions when clicking outside of the input field (add hidden class to suggestions container)
+        suggestionsContainer.classList.add('hidden');
     }
 });
 

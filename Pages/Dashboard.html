@@ -5,13 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App - Dashboard</title>
     <link rel="stylesheet" href="../Styles/DashboardStyles.css">
-
+    <link rel="stylesheet" href="../Styles/LocationSearch.css">
+    <link rel="stylesheet" href="../Styles/AIModal.css">
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
     <!-- Dashboard Script -->
     <script type="module" src="../Scripts/Dashboard.js" defer></script>
     <script type="module" src="../Scripts/WeatherLogic.js"></script>
+
+    <!-- AI Modal Script -->
+    <script type="module" src="../Scripts/AIModal.js" defer></script>
 </head>
 
 <body>
@@ -30,7 +34,7 @@
             <!-- Location Search Section -->
             <div class="header__search-container">
                 <input type="text" id="location-input" placeholder="Search Location">
-                <div id="location-suggestions"></div>
+                <div id="location-suggestions" class="hidden"></div>
             </div>
         </div>
     </header>
@@ -70,5 +74,31 @@
 
     <!-- Swiper JS -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js" defer></script>
+
+    <!-- Button for AI chat modal -->
+    <button id="ai-button" class="floating-button">
+        <img src="../images/ai.png" alt="AI Icon" />
+    </button>
+
+    <!-- AI chat modal -->
+    <div id="ai-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <!-- Header, where the title and x button are -->
+            <div class="modal-header">
+                <h2 style="display: inline;">AI Chat</h2>
+                <sspan class="close-button">&times;</span>
+            </div>
+            <!-- Body, where the AI chat will take place -->
+            <div class="modal-body">
+                <!-- TODO: Placeholder for AI chat -->
+                <p>The AI chat will go here!</p>
+            </div>
+            <!-- Footer containing user chat -->
+            <div class="modal-footer">
+                <textarea id="chat-input" maxlength="300" placeholder="Type your message (max 300 characters)"></textarea>
+                <button id="send-button">Send</button>
+              </div>
+        </div>
+    </div>
 </body>
 </html>
