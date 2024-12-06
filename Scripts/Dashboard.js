@@ -1,6 +1,6 @@
 import './LocationSearch.js';
-//import { getWeatherForLocation } from './LocationSearch.js';
 import weatherStore, { getHourWeather } from './WeatherLogic.js';
+import { addAllRecs } from './recommendations.js';
 
 // Initialize slides array to hold the data for Swiper
 const slides = []; 
@@ -16,7 +16,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Updating UI using data in weatherStore.weatherInfo
     updateWeatherDisplay()
 
-    updateSlidesWithWeather(); // Jacob you won't need to pass an argument through this anymore
+    addAllRecs();
+
+    //updateSlidesWithWeather(); // Jacob you won't need to pass an argument through this anymore
 });
 
 // Toggling between fahrenheit and celcius
@@ -33,14 +35,12 @@ document.getElementById('toggles').addEventListener('change', () => {
 });
 
 function updateWeatherDisplay() {
-    const weatherHeaderElement = document.getElementById('weather-header');
     const tempElement = document.getElementById('temp');
     const conditionElement = document.getElementById('condition');
     const weatherIconElement = document.getElementById('weather-icon');
     const windElement = document.getElementById('wind-speed');
     const chanceOfRainElement = document.getElementById('chance-rain');
 
-    weatherHeaderElement.textContent = 'Current Weather'; // We were defaulting to this in getWeather so I kept it that way, feel free to change -R
     conditionElement.textContent = weatherStore.weatherInfo.shortForecast;
     windElement.textContent = weatherStore.weatherInfo.windSpeed;
     chanceOfRainElement.textContent = weatherStore.weatherInfo.rainChance;
@@ -48,7 +48,6 @@ function updateWeatherDisplay() {
     {
         chanceOfRainElement.textContent = 0;
     }
-    console.log('chance rain', weatherStore.weatherInfo.rainChance);
     tempElement.setAttribute('data-tempFahrenheit', weatherStore.weatherInfo.temperature);
     tempElement.setAttribute('data-tempCelsius', Math.round((weatherStore.weatherInfo.temperature - 32) * 5 / 9));
     tempElement.textContent = `${weatherStore.weatherInfo.temperature}° F`;
@@ -89,8 +88,7 @@ function updateWeatherDisplay() {
                 break; // Stop once the first match is found
             }
         }
-    }
-    else {
+    } else {
         console.log('isDaytime is either false or undefined.');
         const weatherIcons = [
             { keyword: "fog",  path: "../images/fog_or_mist.png" },
@@ -117,12 +115,74 @@ function updateWeatherDisplay() {
             if (forecast.includes(keyword)) {
                 iconPath = path;
                 break; // Stop once the first match is found
+            }
         }
     }
+
+    // Show/Hide the weather alert section based on the presence of an alert
+    const weatherAlertSection = document.getElementById('weather-alert');
+    const alertContainer = document.getElementById('alert-container'); // Container for multiple alerts
+    let alertTitle = document.getElementById('alert-title'); // Check if the title already exists in the DOM
+
+    const numberOfAlerts = weatherStore.weatherInfo.alerts.length;
+
+    if (!alertTitle) {
+        // Create and insert the title if it doesn't exist
+        alertTitle = document.createElement('h2');
+        alertTitle.id = 'alert-title'; // Assign an ID to identify it later
+        alertTitle.style.textAlign = 'center'; // Center the title
+        alertTitle.style.marginBottom = '10px'; // Add some space below the title
+        weatherAlertSection.insertBefore(alertTitle, alertContainer);
     }
+
+    // Clear any previous alerts
+    alertTitle.innerHTML = '';
+    alertContainer.innerHTML = '';
+
+    // Update the title with the number of alerts
+    alertTitle.textContent = `Total Alerts: ${numberOfAlerts}`;
+
+    if (numberOfAlerts > 0) {
+        // If there are alerts, show the alert section
+        weatherAlertSection.style.display = 'block';
+            
+        // Have the alerts be minimized by default
+        alertContainer.style.display = 'none';
+
+        // Loop through the alerts and display each one
+        weatherStore.weatherInfo.alerts.forEach((alert) => {
+            const alertElement = document.createElement('div');
+            alertElement.classList.add('alert'); // Add a class for styling
+
+            const alertHeader = document.createElement('h3');
+            alertHeader.textContent = alert.title; // Title of the alert
+            alertElement.appendChild(alertHeader);
+
+            const alertBody = document.createElement('p');
+            alertBody.textContent = alert.description; // Description of the alert
+            alertElement.appendChild(alertBody);
+
+            // Add toggle functionality to minimize/show alerts
+            let isMinimized = true;
+            weatherAlertSection.addEventListener('click', () => {
+                if (isMinimized) {
+                    alertContainer.style.display = 'block'; // Show alerts
+                    isMinimized = false;
+                } else {
+                    alertContainer.style.display = 'none'; // Hide alerts
+                    isMinimized = true;
+                }
+            });
+
+            alertContainer.appendChild(alertElement); // Append the alert element to the container
+        });
+    } else {
+        // If no alert, hide the alert section
+        weatherAlertSection.style.display = 'none';
+    }
+
     // Update the src attribute of the weather icon
     weatherIconElement.src = iconPath;
-    console.log(iconPath);
 
     changeBackgroundGradient();
 }

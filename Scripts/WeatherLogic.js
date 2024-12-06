@@ -5,11 +5,9 @@ import { getCurrentLocation } from './Dashboard.js';
 const weatherStore = {
 
     // Recommendations based off of the generateRecommendations() function
-    // FEEL FREE TO EDIT THIS TO DO WHATEVER YOU NEED TO DO
+    // These are arrays of { imagePath, description }
     recommendations: {
         upperBody: [],
-        lowerBody: [],
-        footwear: [],
         accessories: []
     },
 
@@ -26,6 +24,7 @@ const weatherStore = {
         isDaytime: "True",
         date: "Err",
         hour: "Err",
+        alert: "",
     }
 };
 
@@ -68,6 +67,18 @@ export async function getHourWeather(latitude, longitude) {
         weatherStore.weatherInfo.windDirection = currentHour.windDirection;
         weatherStore.weatherInfo.shortForecast = currentHour.shortForecast;
         weatherStore.weatherInfo.isDaytime = currentHour.isDaytime;
+        
+        // Add any alerts to an array
+        if (alertsData && alertsData.features) {
+            weatherStore.weatherInfo.alerts = alertsData.features.map(alert => ({
+                title: alert.properties.headline,
+                description: alert.properties.description,
+                severity: alert.properties.severity,
+            }));
+        } else {
+            weatherStore.weatherInfo.alerts = [];
+        }
+
         const currentDateAndTime = splitDate(currentHour.startTime);
         weatherStore.weatherInfo.date = currentDateAndTime[0];
         weatherStore.weatherInfo.hour = currentDateAndTime[1];
@@ -93,73 +104,56 @@ function splitDate(currentDate) {
     return [divorcedDate, time];
 }
 
-// PLEASE CHANGE THIS FUNCTION IF YOU NEED TO FOR THE RECOMMENDATIONS
-// This was just my inital thought on how it should work but do whatever is needed
 function generateRecommendations() {
+
     // Clearing previous recommendations so we don't get duplicates
     weatherStore.recommendations.upperBody = [];
-    weatherStore.recommendations.lowerBody = [];
-    weatherStore.recommendations.footwear = [];
     weatherStore.recommendations.accessories = [];
 
     // Getting clothing recommendations
-
     if (weatherStore.weatherInfo.temperature <= 32) {
         // Extreme cold
-        weatherStore.recommendations.upperBody.push("Heavy Coat", "Sweater");
-        weatherStore.recommendations.accessories.push("Gloves", "Hat");
-        weatherStore.recommendations.lowerBody.push("Thick Pants");
-        weatherStore.recommendations.footwear.push("Boots");
+        weatherStore.recommendations.upperBody.push(
+            {imagePath: "../images/very heavy.png", description: "Heavy Coat"},
+            {imagePath: "../images/heavy.png", description: "Jacket"}
+            );
+        weatherStore.recommendations.accessories.push(
+            {imagePath: "../images/snowboots.png", description: "Boots"}
+        );
     }
     else if (weatherStore.weatherInfo.temperature <= 60) {
         // Moderate Cold
-        weatherStore.recommendations.upperBody.push("Jacket", "Sweater");
-        weatherStore.recommendations.lowerBody.push("Jeans", "Sweatpants");
+        weatherStore.recommendations.upperBody.push(
+            {imagePath: "../images/medium.png", description: "Warm Clothes"},
+            {imagePath: "../images/heavy.png", description: "Jacket"}
+        );
     }
     else if (weatherStore.weatherInfo.temperature <= 75) {
         // Moderate
-        weatherStore.recommendations.upperBody.push("TShirt", "Light Sweater");
-        weatherStore.recommendations.lowerBody.push("Jeans", "Sweatpants");
+        weatherStore.recommendations.upperBody.push(
+            {imagePath: "../images/light.png", description: "T-Shirt"}
+        );
+        weatherStore.recommendations.accessories.push(
+            {imagePath: "../images/hydrate.png", description: "Water Bottle"}
+        );
     }
     else {
         // Moderate to High Heat
-        weatherStore.recommendations.upperBody.push("TShirt");
-        weatherStore.recommendations.lowerBody.push("Shorts");
+        weatherStore.recommendations.upperBody.push(
+            {imagePath: "../images/light.png", description: "T-Shirt"}
+        );
+        weatherStore.recommendations.accessories.push(
+            {imagePath: "../images/hydrate.png", description: "Water Bottle"}
+        );
     }
 
-    // Rain based recommendations (CAN BE EXPANDED UPON IF NEEDED)
-    if (weatherStore.weatherInfo.rainChance >= 60) {
-        weatherStore.recommendations.accessories.push("Umbrella");
+    // Rain based recommendations (CAN BE EXPANDED UPON)
+    if (weatherStore.weatherInfo.rainChance >= 5) {
+        weatherStore.recommendations.accessories.push(
+            {imagePath: "../images/umbrella.png", description: "Umbrella"}
+        );
     }
 
-    // Wind based recommendations
-    if (weatherStore.weatherInfo.windSpeed >= 20) {
-        weatherStore.recommendations.accessories.push("Windbreaker");
-    }
-
-    // Short forecast based recommendations
-    if (weatherStore.weatherInfo.shortForecast.toLowerCase().includes("sunny")) {
-        weatherStore.recommendations.accessories.push("Sunglasses");
-    }
-    else if (weatherStore.weatherInfo.shortForecast.toLowerCase().includes("rain") &
-        !(weatherStore.recommendations.accessories.includes("Umbrella"))) {
-        weatherStore.recommendations.accessories.push("Umbrella");
-    }
-
-    //console.log(weatherStore.recommendations); // Testing purposes
 }
-
-// Beginning run based on current location
-async function initialization() {
-    try {
-        const userPosition = await getCurrentLocation();
-        await getHourWeather(userPosition[0], userPosition[1]);
-    }
-    catch (error) {
-        console.error("Error getting location and weather data", error);
-    }
-}
-
-initialization();
 
 export default weatherStore;

@@ -1,7 +1,7 @@
 /* General Body Styles */
 body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background-image: linear-gradient(to bottom right, rgb(255, 145, 0), rgb(0, 179, 255)); 
+  background-image: linear-gradient(hsl(210, 100%, 50%), hsl(210, 100%, 30%)); 
   background-repeat: no-repeat;
   background-size: 100% 100%;
   min-height: 100vh;
@@ -98,6 +98,15 @@ header {
 
 main {
   padding: 20px;
+}
+
+#weather-alert {
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: rgba(255, 0, 0, 0.2);
+  max-width: 400px;
+  text-align: left;
 }
 
 #weather-overview {
