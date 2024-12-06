@@ -64,7 +64,7 @@ function addMessage(sender, message) {
   messageElement.classList.add(sender === "User" ? "message-user" : "message-other");
   messageElement.textContent = `${sender}: ${message}`;
   messageElement.style.overflow = "wrap";
-  messageElement.style.maxWidth = "50%";
+  messageElement.style.maxWidth = "70%";
   if(sender === "User"){
     messageElement.style.alignSelf = "flex-end";
     messageElement.style.textAlign = "right";
@@ -94,7 +94,7 @@ async function getChatBotResponse(chatMessage){
   ShortForecast: weatherStore.weatherInfo.shortForecast,
   Date: weatherStore.weatherInfo.date,
   Hour: weatherStore.weatherInfo.hour,
-  Location: document.getElementById("weather-header").textContent,
+  Location: document.getElementById("location-display").textContent,
   UserMessage: chatMessage
   }
 

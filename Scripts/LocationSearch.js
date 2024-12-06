@@ -63,6 +63,7 @@ const displaySuggestions = (suggestions) => {
         // When a suggestion is clicked, update the input field and fetch weather data
         suggestionElement.addEventListener('click', async () => {
             locationInput.value = suggestion.name;
+
             suggestionsContainer.innerHTML = '';
 
             // If the user selects 'Current Location', get current lat/lon values and fetch weather
