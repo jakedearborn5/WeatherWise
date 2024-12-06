@@ -119,8 +119,8 @@ function updateWeatherDisplay(weather) {
             { keyword: "isolated clouds", path: "../images/isolated_clouds_night.png"},
             { keyword: "mostly clear", path: "../images/partly_cloudy_night.png" },
             { keyword: "partly cloudy",  path: "../images/partly_cloudy_night.png" },
-            { keyword: "mostly cloudy",  path: "../images/isolated_clouds_night.png"},
-            { keyword: "partly clear", path: "../images/isolated_clouds_night.png"},
+            { keyword: "mostly cloudy",  path: "../images/mostly_cloudy_night.png"},
+            { keyword: "partly clear", path: "../images/mostly_cloudy_night.png"},
             { keyword: "clear", path: "../images/clear.png" },
             { keyword: "cloudy", path: "../images/cloudy.png" }
         ];
