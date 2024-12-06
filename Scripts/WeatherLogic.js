@@ -1,30 +1,37 @@
 import { getCurrentLocation } from './Dashboard.js';
 
-// Global objects so that they can be accessed anywhere and updated for each new location
-const recommendations = {
-    upperBody: [],
-    lowerBody: [],
-    footwear: [],
-    accessories: []
-};
+// Exported object so that information can be accessed anywhere
 
-const weatherInfo = {
-    temperature: -1,
-    tempUnit: "E",
-    rainChance: -1,
-    dewPoint: -1,
-    relativeHumidity: -1,
-    windSpeed: -1,
-    windDirection: "E",
-    shortForecast: "E",
-    isDaytime: "True",
-    date: "Err",
-    hour: "Err",
+const weatherStore = {
+
+    // Recommendations based off of the generateRecommendations() function
+    // FEEL FREE TO EDIT THIS TO DO WHATEVER YOU NEED TO DO
+    recommendations: {
+        upperBody: [],
+        lowerBody: [],
+        footwear: [],
+        accessories: []
+    },
+    
+    // This will include everything the API has to offer for the specific location
+    weatherInfo: {
+        temperature: -1,
+        tempUnit: "E",
+        rainChance: -1,
+        dewPoint: -1,
+        relativeHumidity: -1,
+        windSpeed: -1,
+        windDirection: "E",
+        shortForecast: "E",
+        isDaytime: "True",
+        date: "Err",
+        hour: "Err",
+    }
 };
 
 
 // This function populates the weatherInfo object based on latitude and longitude and also generates recommendations based off the data gotten
-async function getHourWeather(latitude, longitude) {
+export async function getHourWeather(latitude, longitude) {
     try {
         // Getting points from the latitude and longitude
         const pointUrl = `https://api.weather.gov/points/${latitude},${longitude}`;
@@ -52,32 +59,20 @@ async function getHourWeather(latitude, longitude) {
         const currentHour = forecastData.properties.periods[0];
 
         // Putting all data in it's proper place
-        weatherInfo.temperature = currentHour.temperature;
-        weatherInfo.tempUnit = currentHour.temperatureUnit;
-        weatherInfo.rainChance = currentHour.probabilityOfPrecipitation.value;
-        weatherInfo.dewPoint = currentHour.dewpoint.value;
-        weatherInfo.relativeHumidity = currentHour.relativeHumidity.value;
-        weatherInfo.windSpeed = currentHour.windSpeed;
-        weatherInfo.windDirection = currentHour.windDirection;
-        weatherInfo.shortForecast = currentHour.shortForecast;
-        weatherInfo.isDaytime = currentHour.isDaytime;
+        weatherStore.weatherInfo.temperature = currentHour.temperature;
+        weatherStore.weatherInfo.tempUnit = currentHour.temperatureUnit;
+        weatherStore.weatherInfo.rainChance = currentHour.probabilityOfPrecipitation.value;
+        weatherStore.weatherInfo.dewPoint = currentHour.dewpoint.value;
+        weatherStore.weatherInfo.relativeHumidity = currentHour.relativeHumidity.value;
+        weatherStore.weatherInfo.windSpeed = currentHour.windSpeed;
+        weatherStore.weatherInfo.windDirection = currentHour.windDirection;
+        weatherStore.weatherInfo.shortForecast = currentHour.shortForecast;
+        weatherStore.weatherInfo.isDaytime = currentHour.isDaytime;
         const currentDateAndTime = splitDate(currentHour.startTime);
-        weatherInfo.date = currentDateAndTime[0];
-        weatherInfo.hour = currentDateAndTime[1];
+        weatherStore.weatherInfo.date = currentDateAndTime[0];
+        weatherStore.weatherInfo.hour = currentDateAndTime[1];
 
-
-
-        // This probably needs to be removed tbh
-        // const weatherInfo = {
-            
-        //     alerts: alertsData.features.map((alert) => ({
-        //         title: alert.properties.event,
-        //         description: alert.properties.description,
-        //         severity: alert.properties.severity,
-        //     })),
-        // };
-
-        console.log(weatherInfo); // Temp for testing purposes
+        //console.log(weatherStore.weatherInfo); // Temp for testing purposes
         generateRecommendations();
 
     } catch (error) {
@@ -101,63 +96,64 @@ function splitDate(currentDate)
 function generateRecommendations()
 {
     // Clearing previous recommendations so we don't get duplicates
-    recommendations.upperBody = [];
-    recommendations.lowerBody = [];
-    recommendations.footwear = [];
-    recommendations.accessories = [];
+    weatherStore.recommendations.upperBody = [];
+    weatherStore.recommendations.lowerBody = [];
+    weatherStore.recommendations.footwear = [];
+    weatherStore.recommendations.accessories = [];
 
     // Getting clothing recommendations
 
-    if(weatherInfo.temperature <= 32)
+    if(weatherStore.weatherInfo.temperature <= 32)
     {
         // Extreme cold
-        recommendations.upperBody.push("Heavy Coat", "Sweater");
-        recommendations.accessories.push("Gloves", "Hat");
-        recommendations.lowerBody.push("Thick Pants");
-        recommendations.footwear.push("Boots");
+        weatherStore.recommendations.upperBody.push("Heavy Coat", "Sweater");
+        weatherStore.recommendations.accessories.push("Gloves", "Hat");
+        weatherStore.recommendations.lowerBody.push("Thick Pants");
+        weatherStore.recommendations.footwear.push("Boots");
     }
-    else if(weatherInfo.temperature <= 60)
+    else if(weatherStore.weatherInfo.temperature <= 60)
     {
         // Moderate Cold
-        recommendations.upperBody.push("Jacket", "Sweater");
-        recommendations.lowerBody.push("Jeans", "Sweatpants");
+        weatherStore.recommendations.upperBody.push("Jacket", "Sweater");
+        weatherStore.recommendations.lowerBody.push("Jeans", "Sweatpants");
     }
-    else if(weatherInfo.temperature <= 75)
+    else if(weatherStore.weatherInfo.temperature <= 75)
     {
         // Moderate
-        recommendations.upperBody.push("TShirt", "Light Sweater");
-        recommendations.lowerBody.push("Jeans", "Sweatpants");
+        weatherStore.recommendations.upperBody.push("TShirt", "Light Sweater");
+        weatherStore.recommendations.lowerBody.push("Jeans", "Sweatpants");
     }
     else
     {
         // Moderate to High Heat
-        recommendations.upperBody.push("TShirt");
-        recommendations.lowerBody.push("Shorts");
+        weatherStore.recommendations.upperBody.push("TShirt");
+        weatherStore.recommendations.lowerBody.push("Shorts");
     }
 
     // Rain based recommendations (CAN BE EXPANDED UPON IF NEEDED)
-    if(weatherInfo.rainChance >= 60)
+    if(weatherStore.weatherInfo.rainChance >= 60)
     {
-        recommendations.accessories.push("Umbrella");
+        weatherStore.recommendations.accessories.push("Umbrella");
     }
 
     // Wind based recommendations
-    if(weatherInfo.windSpeed >= 20)
+    if(weatherStore.weatherInfo.windSpeed >= 20)
     {
-        recommendations.accessories.push("Windbreaker");
+        weatherStore.recommendations.accessories.push("Windbreaker");
     }
 
     // Short forecast based recommendations
-    if(weatherInfo.shortForecast.toLowerCase().includes("sunny"))
+    if(weatherStore.weatherInfo.shortForecast.toLowerCase().includes("sunny"))
     {
-        recommendations.accessories.push("Sunglasses");
+        weatherStore.recommendations.accessories.push("Sunglasses");
     }
-    else if(weatherInfo.shortForecast.toLowerCase().includes("rain") & !(recommendations.accessories.includes("Umbrella")))
+    else if(weatherStore.weatherInfo.shortForecast.toLowerCase().includes("rain") & 
+            !(weatherStore.recommendations.accessories.includes("Umbrella")))
     {
-        recommendations.accessories.push("Umbrella");
+        weatherStore.recommendations.accessories.push("Umbrella");
     }
 
-    console.log(recommendations); // Testing purposes
+    //console.log(weatherStore.recommendations); // Testing purposes
 }
 
 // Beginning run based on current location
@@ -166,7 +162,7 @@ async function initialization()
     try 
     {
         const userPosition = await getCurrentLocation();
-        getHourWeather(userPosition[0], userPosition[1]);
+        await getHourWeather(userPosition[0], userPosition[1]);
     }
     catch(error)
     {
@@ -175,3 +171,5 @@ async function initialization()
 }
 
 initialization();
+
+export default weatherStore;

@@ -8,6 +8,7 @@
 // catch any errors that occur when fetching weather data and return a default value or error message.
 
 import { updateWeatherDisplay } from './Dashboard.js';
+import { getHourWeather } from './WeatherLogic.js';
 
 // List of locations to suggest to the user
 const locations = [
@@ -70,16 +71,15 @@ const displaySuggestions = (suggestions) => {
                     navigator.geolocation.getCurrentPosition(async (position) => {
                         const latitude = position.coords.latitude;
                         const longitude = position.coords.longitude;
-                        getHourWeather(latitude, longitude);
-                        const weather = await getWeatherForLocation(latitude, longitude, 'Current Location');
-                        updateWeatherDisplay(weather);
+                        await getHourWeather(latitude, longitude);
+                        updateWeatherDisplay();
                     });
                 }
             }
             else {
                 // Fetch weather for selected location
-                const weather = await getWeatherForLocation(suggestion.latitude, suggestion.longitude, suggestion.name);
-                updateWeatherDisplay(weather);
+                await getHourWeather(suggestion.latitude, suggestion.longitude);
+                updateWeatherDisplay();
             }
         });
 
@@ -122,31 +122,3 @@ document.addEventListener('click', (e) => {
 locationInput.addEventListener('focus', () => {
     displaySuggestions(locations.slice(0, 5));
 });
-
-/**
- * Get the weather for a specific location
- * @param {*} latitude Latitude of the location
- * @param {*} longitude Longitude of the location
- * @param {*} name  The name of the location
- * @returns  The weather data for the location
- */
-async function getWeatherForLocation(latitude, longitude, name) {
-    try {
-        const pointResponse = await fetch(`https://api.weather.gov/points/${latitude},${longitude}`);
-        const pointData = await pointResponse.json();
-
-        const forecastUrl = pointData.properties.forecast;
-        const forecastResponse = await fetch(forecastUrl);
-        const forecastData = await forecastResponse.json();
-
-        let weather = forecastData.properties.periods[0];
-        weather.locationName = name;
-
-        return weather;
-    } catch (error) {
-        console.error('Error fetching weather data:', error);
-        return null;
-    }
-}
-
-export { getWeatherForLocation };
