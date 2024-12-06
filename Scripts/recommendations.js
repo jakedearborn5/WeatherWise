@@ -32,7 +32,6 @@ export function addAllRecs()
     {
         // Adding a slide for each recommended item
         items.forEach(item => {
-            console.log(item.description);
             addSlide(item.imagePath, item.description);
         });
     }
