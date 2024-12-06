@@ -1,6 +1,6 @@
 import './LocationSearch.js';
-//import { getWeatherForLocation } from './LocationSearch.js';
 import weatherStore, { getHourWeather } from './WeatherLogic.js';
+import { addAllRecs } from './recommendations.js';
 
 // Initialize slides array to hold the data for Swiper
 const slides = []; 
@@ -16,7 +16,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Updating UI using data in weatherStore.weatherInfo
     updateWeatherDisplay()
 
-    updateSlidesWithWeather(); // Jacob you won't need to pass an argument through this anymore
+    addAllRecs();
+
+    //updateSlidesWithWeather(); // Jacob you won't need to pass an argument through this anymore
 });
 
 // Toggling between fahrenheit and celcius

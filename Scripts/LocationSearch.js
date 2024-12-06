@@ -9,6 +9,7 @@
 
 import { updateWeatherDisplay } from './Dashboard.js';
 import { getHourWeather } from './WeatherLogic.js';
+import { addAllRecs } from './recommendations.js';
 
 // List of locations to suggest to the user
 const locations = [
@@ -73,6 +74,7 @@ const displaySuggestions = (suggestions) => {
                         const longitude = position.coords.longitude;
                         await getHourWeather(latitude, longitude);
                         updateWeatherDisplay();
+                        addAllRecs();
                     });
                 }
             }
@@ -80,6 +82,7 @@ const displaySuggestions = (suggestions) => {
                 // Fetch weather for selected location
                 await getHourWeather(suggestion.latitude, suggestion.longitude);
                 updateWeatherDisplay();
+                addAllRecs();
             }
         });
 
