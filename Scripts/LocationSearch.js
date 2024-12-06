@@ -49,6 +49,11 @@ const locations = [
 const suggestionsContainer = document.getElementById('location-suggestions');
 const locationInput = document.getElementById('location-input');
 
+// Update location display in main weather overview
+const updateLocationDisplay = (locationName) => {
+    document.getElementById('location-display').textContent = locationName;
+};
+
 // Display suggestions based on user input
 const displaySuggestions = (suggestions) => {
     // Clear the suggestions container
@@ -65,7 +70,8 @@ const displaySuggestions = (suggestions) => {
             locationInput.value = suggestion.name;
 
             suggestionsContainer.innerHTML = '';
-
+            // Updates main weather overview location
+            updateLocationDisplay(suggestion.name);
             // If the user selects 'Current Location', get current lat/lon values and fetch weather
             if (suggestion.name === 'Current Location') {
                 if ("geolocation" in navigator) {
