@@ -90,11 +90,14 @@
   /* Middle part of the modal, where the AI chat bot resides */
   /* TODO: Change formatting for AI chat */
   .modal-body {
+    display:flex;
     flex: 1;
+    flex-direction: column;
     padding: 1rem;
     overflow-y: auto;
     padding: 20px;
     color: white;
+    overflow-y:auto;
   }
   
   /* Bottom part of modal, where the textbox and send button reside */

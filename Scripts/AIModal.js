@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const chatInput = document.getElementById('chat-input');
     const sendButton = document.getElementById('send-button');
     const modalOverlay = document.createElement('div');
+    const chatLog = document.getElementById("chat-log");
 
     // Check for stupidity
     if (!aiButton || !aiModal || !closeButton) {
@@ -40,14 +41,59 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Functionality for sending the AI a chat
-    sendButton.addEventListener('click', () => {
+    sendButton.addEventListener('click', async () => {
         // Assign the chatInput to a variable 
         const message = chatInput.value.trim();
 
         // If there is a message, send it and clear the chatInput
         if (message) {
-          console.log(message); // TODO: Placeholder for AI chatbout
+          addMessage("user" , message);
           chatInput.value = ''; // Clear the input
+
+          const chatBotResponse = await getChatBotResponse(message);
+          addMessage("Chatbot", chatBotResponse);
         }
       });
+
+function addMessage(sender, message) {
+  const messageElement = document.createElement("div");
+  messageElement.classList.add("message");
+  messageElement.classList.add(sender === "user" ? "message-user" : "message-other");
+  messageElement.textContent = `${sender}: ${message}`;
+  messageElement.style.overflow = "wrap";
+  if(sender === "user"){
+    messageElement.style.alignSelf = "flex-end";
+  }
+  else{
+    messageElement.style.alignSelf = "flex-start";
+  }
+  chatLog.appendChild(messageElement);
+  chatLog.scrollTop = chatLog.scrollHeight;
+}
+
 });
+
+async function getChatBotResponse(chatMessage){
+  console.log("Getting chatbot response");
+  console.log(chatMessage);
+  const payload = {
+    chatMessage: chatMessage
+  };
+
+  try{    
+    const res = await fetch(`http://localhost:3000/chatBot/${chatMessage}`);
+
+    if(!res.ok){
+      throw new Error(`HTTP error! Status: ${res.status}`);
+    }
+    console.log("Should get chatbot respoonse");
+    const chatBotResponse = await res.text();
+    console.log(chatBotResponse);
+    console.log("chatbot response is ", chatBotResponse);
+    return chatBotResponse;
+}
+  catch(error){
+    console.error();
+  }
+}
+
