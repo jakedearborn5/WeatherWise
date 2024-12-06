@@ -8,6 +8,7 @@
 // catch any errors that occur when fetching weather data and return a default value or error message.
 
 import { updateWeatherDisplay } from './Dashboard.js';
+import { getHourWeather } from './WeatherLogic.js';
 
 // List of locations to suggest to the user
 const locations = [
@@ -49,6 +50,11 @@ const locations = [
 const suggestionsContainer = document.getElementById('location-suggestions');
 const locationInput = document.getElementById('location-input');
 
+// Update location display in main weather overview
+const updateLocationDisplay = (locationName) => {
+    document.getElementById('location-display').textContent = locationName;
+};
+
 // Display suggestions based on user input
 const displaySuggestions = (suggestions) => {
     // Clear the suggestions container
@@ -63,23 +69,25 @@ const displaySuggestions = (suggestions) => {
         // When a suggestion is clicked, update the input field and fetch weather data
         suggestionElement.addEventListener('click', async () => {
             locationInput.value = suggestion.name;
-            suggestionsContainer.innerHTML = '';
 
+            suggestionsContainer.innerHTML = '';
+            // Updates main weather overview location
+            updateLocationDisplay(suggestion.name);
             // If the user selects 'Current Location', get current lat/lon values and fetch weather
             if (suggestion.name === 'Current Location') {
                 if ("geolocation" in navigator) {
                     navigator.geolocation.getCurrentPosition(async (position) => {
                         const latitude = position.coords.latitude;
                         const longitude = position.coords.longitude;
-                        const weather = await getWeatherForLocation(latitude, longitude, 'Current Location');
-                        updateWeatherDisplay(weather);
+                        await getHourWeather(latitude, longitude);
+                        updateWeatherDisplay();
                     });
                 }
             }
             else {
                 // Fetch weather for selected location
-                const weather = await getWeatherForLocation(suggestion.latitude, suggestion.longitude, suggestion.name);
-                updateWeatherDisplay(weather);
+                await getHourWeather(suggestion.latitude, suggestion.longitude);
+                updateWeatherDisplay();
             }
         });
 
@@ -122,31 +130,3 @@ document.addEventListener('click', (e) => {
 locationInput.addEventListener('focus', () => {
     displaySuggestions(locations.slice(0, 5));
 });
-
-/**
- * Get the weather for a specific location
- * @param {*} latitude Latitude of the location
- * @param {*} longitude Longitude of the location
- * @param {*} name  The name of the location
- * @returns  The weather data for the location
- */
-async function getWeatherForLocation(latitude, longitude, name) {
-    try {
-        const pointResponse = await fetch(`https://api.weather.gov/points/${latitude},${longitude}`);
-        const pointData = await pointResponse.json();
-
-        const forecastUrl = pointData.properties.forecast;
-        const forecastResponse = await fetch(forecastUrl);
-        const forecastData = await forecastResponse.json();
-
-        let weather = forecastData.properties.periods[0];
-        weather.locationName = name;
-
-        return weather;
-    } catch (error) {
-        console.error('Error fetching weather data:', error);
-        return null;
-    }
-}
-
-export { getWeatherForLocation };

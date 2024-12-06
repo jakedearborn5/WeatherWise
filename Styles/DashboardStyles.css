@@ -1,7 +1,7 @@
 /* General Body Styles */
 body {
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-  background-image: linear-gradient(to bottom right, rgb(255, 145, 0), rgb(0, 179, 255));
+  background-image: linear-gradient(to bottom right, rgb(255, 145, 0), rgb(0, 179, 255)); 
   background-repeat: no-repeat;
   background-size: 100% 100%;
   min-height: 100vh;
@@ -9,6 +9,18 @@ body {
   text-align: center;
   margin: 0;
   padding: 0;
+}
+
+#chance-of-precipitation {
+  position: absolute;
+  top: 80px;
+  right: -25px;
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  border-radius: 5px;
+  scale: 0.3;
+  font-size: 50px;
 }
 
 /* Header Styles */
@@ -238,6 +250,7 @@ main {
 }
 
 .swiper-pagination-bullet:hover {
-opacity: 1;
-transform: scale(1.2); /* Slightly enlarge the bullet on hover */
+  opacity: 1;
+  transform: scale(1.2);
+  /* Slightly enlarge the bullet on hover */
 }

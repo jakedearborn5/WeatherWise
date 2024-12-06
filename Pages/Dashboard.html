@@ -10,6 +10,8 @@
     <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
+    <script type="module" src="../Scripts/WeatherLogic.js"></script>
+
     <!-- Dashboard Script -->
     <script type="module" src="../Scripts/Dashboard.js" defer></script>
 
@@ -48,10 +50,16 @@
 
         <!-- Weather Overview Section -->
         <section id="weather-overview">
+            <div id="chance-of-precipitation">
+                <img src="../images/tinyrain.png">
+                <span id="chance-rain", %></span>%</span>
+            </div>
+            <h1 id = "location-display">Current Location</h1>
             <h2 id="weather-header">Current Weather</h2>
             <img id="weather-icon" src="weather-icon" alt="Weather Icon">
             <p>Temperature: <span id="temp">Loading...</span></p>
             <p>Condition: <span id="condition">Loading...</span></p>
+            <p>Wind Speed: <span id="wind-speed">Loading...</span></p>
         </section>
 
         <!-- Weather Carousel Section -->
@@ -95,9 +103,9 @@
                 <sspan class="close-button">&times;</span>
             </div>
             <!-- Body, where the AI chat will take place -->
-            <div class="modal-body">
+            <div class = "modal-body" id ="chat-log">
                 <!-- TODO: Placeholder for AI chat -->
-                <p>The AI chat will go here!</p>
+                <p>This is the start of your conversation with the WeatherWise Bot!</p>
             </div>
             <!-- Footer containing user chat -->
             <div class="modal-footer">
