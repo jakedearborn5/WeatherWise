@@ -33,14 +33,12 @@ document.getElementById('toggles').addEventListener('change', () => {
 });
 
 function updateWeatherDisplay() {
-    const weatherHeaderElement = document.getElementById('weather-header');
     const tempElement = document.getElementById('temp');
     const conditionElement = document.getElementById('condition');
     const weatherIconElement = document.getElementById('weather-icon');
     const windElement = document.getElementById('wind-speed');
     const chanceOfRainElement = document.getElementById('chance-rain');
 
-    weatherHeaderElement.textContent = 'Current Weather'; // We were defaulting to this in getWeather so I kept it that way, feel free to change -R
     conditionElement.textContent = weatherStore.weatherInfo.shortForecast;
     windElement.textContent = weatherStore.weatherInfo.windSpeed;
     chanceOfRainElement.textContent = weatherStore.weatherInfo.rainChance;
