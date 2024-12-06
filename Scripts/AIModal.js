@@ -1,3 +1,5 @@
+import weatherStore, { getHourWeather } from './WeatherLogic.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     // All the interactive elements that make up the modal
     const aiButton = document.getElementById('ai-button');
@@ -42,12 +44,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Functionality for sending the AI a chat
     sendButton.addEventListener('click', async () => {
+
         // Assign the chatInput to a variable 
         const message = chatInput.value.trim();
 
         // If there is a message, send it and clear the chatInput
         if (message) {
-          addMessage("user" , message);
+          addMessage("User" , message);
           chatInput.value = ''; // Clear the input
 
           const chatBotResponse = await getChatBotResponse(message);
@@ -58,14 +61,17 @@ document.addEventListener('DOMContentLoaded', () => {
 function addMessage(sender, message) {
   const messageElement = document.createElement("div");
   messageElement.classList.add("message");
-  messageElement.classList.add(sender === "user" ? "message-user" : "message-other");
+  messageElement.classList.add(sender === "User" ? "message-user" : "message-other");
   messageElement.textContent = `${sender}: ${message}`;
   messageElement.style.overflow = "wrap";
-  if(sender === "user"){
+  messageElement.style.maxWidth = "50%";
+  if(sender === "User"){
     messageElement.style.alignSelf = "flex-end";
+    messageElement.style.textAlign = "right";
   }
   else{
     messageElement.style.alignSelf = "flex-start";
+    messageElement.style.textAlign = "left";
   }
   chatLog.appendChild(messageElement);
   chatLog.scrollTop = chatLog.scrollHeight;
@@ -74,22 +80,34 @@ function addMessage(sender, message) {
 });
 
 async function getChatBotResponse(chatMessage){
-  console.log("Getting chatbot response");
-  console.log(chatMessage);
-  const payload = {
-    chatMessage: chatMessage
-  };
+
+  chatMessage = chatMessage.replace(/['"`]/g, ''); //makes it so that the prompt doesnt break the router
+
+  prompt = {
+  Temperature: weatherStore.weatherInfo.temperature,
+  TemperatureUnit: weatherStore.weatherInfo.tempUnit,
+  RainChance: weatherStore.weatherInfo.rainChance,
+  DewPoint: weatherStore.weatherInfo.dewPoint,
+  RelativeHumidity: weatherStore.weatherInfo.relativeHumidity,
+  WindSpeed: weatherStore.weatherInfo.windSpeed,
+  WindDirection: weatherStore.weatherInfo.windDirection,
+  ShortForecast: weatherStore.weatherInfo.shortForecast,
+  Date: weatherStore.weatherInfo.date,
+  Hour: weatherStore.weatherInfo.hour,
+  Location: document.getElementById("weather-header").textContent,
+  UserMessage: chatMessage
+  }
+
+  const jsonPrompt = JSON.stringify(prompt);
 
   try{    
-    const res = await fetch(`http://localhost:3000/chatBot/${chatMessage}`);
+    const res = await fetch(`http://localhost:3000/chatBot/${jsonPrompt}`);
 
     if(!res.ok){
       throw new Error(`HTTP error! Status: ${res.status}`);
     }
-    console.log("Should get chatbot respoonse");
+
     const chatBotResponse = await res.text();
-    console.log(chatBotResponse);
-    console.log("chatbot response is ", chatBotResponse);
     return chatBotResponse;
 }
   catch(error){
