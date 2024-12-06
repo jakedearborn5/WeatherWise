@@ -89,8 +89,7 @@ function updateWeatherDisplay() {
                 break; // Stop once the first match is found
             }
         }
-    }
-    else {
+    } else {
         console.log('isDaytime is either false or undefined.');
         const weatherIcons = [
             { keyword: "fog",  path: "../images/fog_or_mist.png" },
@@ -117,68 +116,78 @@ function updateWeatherDisplay() {
             if (forecast.includes(keyword)) {
                 iconPath = path;
                 break; // Stop once the first match is found
+            }
         }
-    }
     }
 
     // Show/Hide the weather alert section based on the presence of an alert
-        const weatherAlertSection = document.getElementById('weather-alert');
-        const alertContainer = document.getElementById('alert-container'); // Container for multiple alerts
-        const alertTitle = document.createElement('h2'); // Title for the alerts section
+    const weatherAlertSection = document.getElementById('weather-alert');
+    const alertContainer = document.getElementById('alert-container'); // Container for multiple alerts
+    const alertTitle = document.createElement('h2'); // Title for the alerts section
+    const numberOfAlerts = weatherStore.weatherInfo.alerts.length;
 
-        // Clear any previous alerts
-        alertContainer.innerHTML = '';
+    if (!alertTitle) {
+        // Create and insert the title if it doesn't exist
+        alertTitle = document.createElement('h2');
+        alertTitle.id = 'alert-title'; // Assign an ID to identify it later
+        alertTitle.style.textAlign = 'center'; // Center the title
+        alertTitle.style.marginBottom = '10px'; // Add some space below the title
+        weatherAlertSection.insertBefore(alertTitle, alertContainer);
+    }
 
-        if (weatherStore.weatherInfo.alerts.length > 0) {
-            // If there are alerts, show the alert section
-            weatherAlertSection.style.display = 'block';
+    // Clear any previous alerts
+    alertTitle.innerHTML = '';
+    alertContainer.innerHTML = '';
+
+    // Update the title with the number of alerts
+    alertTitle.textContent = `Total Alerts: ${numberOfAlerts}`;
+
+    if (numberOfAlerts > 0) {
+        // If there are alerts, show the alert section
+        weatherAlertSection.style.display = 'block';
             
-            // Have the alerts be minimized by default
-            alertContainer.style.display = 'none';
+        // Have the alerts be minimized by default
+        alertContainer.style.display = 'none';
 
-            // Add a title showing how many alerts there are
-            alertTitle.style.textAlign = 'center'; // Center the title
-            alertTitle.style.marginBottom = '10px'; // Add some space below the title
-            weatherAlertSection.insertBefore(alertTitle, alertContainer); // Insert title above the container
+        // Add a title showing how many alerts there are
+        alertTitle.style.textAlign = 'center'; // Center the title
+        alertTitle.style.marginBottom = '10px'; // Add some space below the title
+        weatherAlertSection.insertBefore(alertTitle, alertContainer); // Insert title above the container
 
-            // Clear any previous alerts
-            alertContainer.innerHTML = '';
+        const numberOfAlerts = weatherStore.weatherInfo.alerts.length;
+        alertTitle.textContent = `Total Alerts: ${numberOfAlerts}`; // Set the title to show the number of alerts
 
-            const numberOfAlerts = weatherStore.weatherInfo.alerts.length;
-            alertTitle.textContent = `Total Alerts: ${numberOfAlerts}`; // Set the title to show the number of alerts
+        // Loop through the alerts and display each one
+        weatherStore.weatherInfo.alerts.forEach((alert) => {
+            const alertElement = document.createElement('div');
+            alertElement.classList.add('alert'); // Add a class for styling
 
-            // Loop through the alerts and display each one
-            weatherStore.weatherInfo.alerts.forEach((alert) => {
-                const alertElement = document.createElement('div');
-                alertElement.classList.add('alert'); // Add a class for styling
+            const alertHeader = document.createElement('h3');
+            alertHeader.textContent = alert.title; // Title of the alert
+            alertElement.appendChild(alertHeader);
 
-                const alertHeader = document.createElement('h3');
-                alertHeader.textContent = alert.title; // Title of the alert
-                alertElement.appendChild(alertHeader);
+            const alertBody = document.createElement('p');
+            alertBody.textContent = alert.description; // Description of the alert
+            alertElement.appendChild(alertBody);
 
-                const alertBody = document.createElement('p');
-                alertBody.textContent = alert.description; // Description of the alert
-                alertElement.appendChild(alertBody);
-
-                // Add toggle functionality to minimize/show alerts
-                let isMinimized = true;
-                weatherAlertSection.addEventListener('click', () => {
-                    if (isMinimized) {
-                        alertContainer.style.display = 'block'; // Show alerts
-                        isMinimized = false;
-                    } else {
-                        alertContainer.style.display = 'none'; // Hide alerts
-                        isMinimized = true;
-                    }
-                });
-
-                alertContainer.appendChild(alertElement); // Append the alert element to the container
+            // Add toggle functionality to minimize/show alerts
+            let isMinimized = true;
+            weatherAlertSection.addEventListener('click', () => {
+                if (isMinimized) {
+                    alertContainer.style.display = 'block'; // Show alerts
+                    isMinimized = false;
+                } else {
+                    alertContainer.style.display = 'none'; // Hide alerts
+                    isMinimized = true;
+                }
             });
-        } else {
-            // If no alert, hide the alert section
-            weatherAlertSection.style.display = 'none';
-        }
 
+            alertContainer.appendChild(alertElement); // Append the alert element to the container
+        });
+    } else {
+        // If no alert, hide the alert section
+        weatherAlertSection.style.display = 'none';
+    }
 
     // Update the src attribute of the weather icon
     weatherIconElement.src = iconPath;
