@@ -47,13 +47,8 @@ cd WeatherWise
 2. Install the necessary dependencies:
 
 ```bash
-# 
 npm install express
-
-#
 npm install server
-
-#
 npm install @google/generative-ai
 ```
 
