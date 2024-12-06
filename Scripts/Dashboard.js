@@ -21,6 +21,34 @@ document.getElementById('toggles').addEventListener('change', () => {
     }
 });
 
+function updateWeatherAlert(alertData) {
+    const alertElement = document.getElementById('weather-alert'); // Container for the alert
+    const alertHeader = document.getElementById('alert-header');   // Header for the alert
+    const alertBody = document.getElementById('alert-body');       // Body for the alert
+
+    if (!alertData || alertData.length === 0) {
+        // Hide the alert if no data
+        alertElement.style.display = 'none';
+        return;
+    }
+
+    // Extract information from the alert data
+    const alert = alertData[0];
+    const { headline, description, instruction } = alert;
+
+    // Update the alert header and body
+    alertHeader.textContent = headline || 'Weather Alert';
+    alertBody.textContent = description + (instruction ? ` Instructions: ${instruction}` : '');
+
+    // Display the alert element
+    alertElement.style.display = 'block';
+}
+
+function handleWeatherAlerts(weatherData) {
+    const alerts = weatherData.alerts || [];
+    updateWeatherAlert(alerts);
+}
+
 async function getWeather() {
     try {
         // Get the user's current location [latitude, longitude]
@@ -40,6 +68,9 @@ async function getWeather() {
 
         // Update slides with weather information
         updateSlidesWithWeather(currentPeriod);
+
+        // Handle and display weather alerts
+        handleWeatherAlerts(currentPeriod);
 
         // Schedule periodic updates
         setTimeout(getWeather, 3600000); // Update every hour

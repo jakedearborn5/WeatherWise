@@ -43,6 +43,7 @@ const locations = [
     { name: 'Baltimore, MD', latitude: 39.2904, longitude: -76.6122 },
     { name: 'Raleigh, NC', latitude: 35.7796, longitude: -78.6382 },
     { name: 'Virginia Beach, VA', latitude: 36.8529, longitude: -75.9780 },
+    { name: 'Choctaw, AL', latitude: 35.49756, longitude: -97.26892},
 ];
 
 const suggestionsContainer = document.getElementById('location-suggestions');

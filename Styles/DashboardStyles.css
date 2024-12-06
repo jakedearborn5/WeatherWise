@@ -88,6 +88,19 @@ main {
   padding: 20px;
 }
 
+#weather-alert {
+  margin: 20px auto;
+  padding: 20px;
+  border-radius: 10px;
+  background-color: rgba(255, 0, 0, 0.1);
+  max-width: 400px;
+  text-align: left;
+}
+
+#weather-alert img {
+  width: 100px;
+}
+
 #weather-overview {
   margin: 20px auto;
   padding: 20px;
