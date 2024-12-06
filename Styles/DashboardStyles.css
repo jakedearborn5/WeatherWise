@@ -11,7 +11,7 @@ body {
   padding: 0;
 }
 
-#top-right-content {
+#chance-of-precipitation {
   position: absolute;
   top: 80px;
   right: -25px;
@@ -22,8 +22,6 @@ body {
   scale: 0.3;
   font-size: 50px;
 }
-
-
 
 /* Header Styles */
 header {
