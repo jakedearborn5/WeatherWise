@@ -123,7 +123,8 @@ function updateWeatherDisplay() {
     // Show/Hide the weather alert section based on the presence of an alert
     const weatherAlertSection = document.getElementById('weather-alert');
     const alertContainer = document.getElementById('alert-container'); // Container for multiple alerts
-    const alertTitle = document.createElement('h2'); // Title for the alerts section
+    let alertTitle = document.getElementById('alert-title'); // Check if the title already exists in the DOM
+
     const numberOfAlerts = weatherStore.weatherInfo.alerts.length;
 
     if (!alertTitle) {
@@ -148,14 +149,6 @@ function updateWeatherDisplay() {
             
         // Have the alerts be minimized by default
         alertContainer.style.display = 'none';
-
-        // Add a title showing how many alerts there are
-        alertTitle.style.textAlign = 'center'; // Center the title
-        alertTitle.style.marginBottom = '10px'; // Add some space below the title
-        weatherAlertSection.insertBefore(alertTitle, alertContainer); // Insert title above the container
-
-        const numberOfAlerts = weatherStore.weatherInfo.alerts.length;
-        alertTitle.textContent = `Total Alerts: ${numberOfAlerts}`; // Set the title to show the number of alerts
 
         // Loop through the alerts and display each one
         weatherStore.weatherInfo.alerts.forEach((alert) => {
