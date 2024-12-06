@@ -104,13 +104,9 @@ main {
   margin: 20px auto;
   padding: 20px;
   border-radius: 10px;
-  background-color: rgba(255, 0, 0, 0.1);
+  background-color: rgba(255, 0, 0, 0.2);
   max-width: 400px;
   text-align: left;
-}
-
-#weather-alert img {
-  width: 100px;
 }
 
 #weather-overview {

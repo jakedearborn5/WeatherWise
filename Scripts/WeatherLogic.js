@@ -26,6 +26,7 @@ const weatherStore = {
         isDaytime: "True",
         date: "Err",
         hour: "Err",
+        alert: "",
     }
 };
 
@@ -68,6 +69,18 @@ export async function getHourWeather(latitude, longitude) {
         weatherStore.weatherInfo.windDirection = currentHour.windDirection;
         weatherStore.weatherInfo.shortForecast = currentHour.shortForecast;
         weatherStore.weatherInfo.isDaytime = currentHour.isDaytime;
+        
+        // Add any alerts to an array
+        if (alertsData && alertsData.features) {
+            weatherStore.weatherInfo.alerts = alertsData.features.map(alert => ({
+                title: alert.properties.headline,
+                description: alert.properties.description,
+                severity: alert.properties.severity,
+            }));
+        } else {
+            weatherStore.weatherInfo.alerts = [];
+        }
+
         const currentDateAndTime = splitDate(currentHour.startTime);
         weatherStore.weatherInfo.date = currentDateAndTime[0];
         weatherStore.weatherInfo.hour = currentDateAndTime[1];
