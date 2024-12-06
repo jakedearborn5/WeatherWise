@@ -54,6 +54,7 @@ function updateWeatherDisplay(weather) {
     const tempElement = document.getElementById('temp');
     const conditionElement = document.getElementById('condition');
     const weatherIconElement = document.getElementById('weather-icon');
+    const windElement = document.getElementById('wind-speed');
 
     if (!weather) {
         console.error('Error fetching weather data');
@@ -62,9 +63,11 @@ function updateWeatherDisplay(weather) {
 
     weatherHeaderElement.textContent = weather.locationName;
     conditionElement.textContent = weather.shortForecast;
+    windElement.textContent = weather.windSpeed;
     tempElement.setAttribute('data-tempFahrenheit', weather.temperature);
     tempElement.setAttribute('data-tempCelsius', Math.round((weather.temperature - 32) * 5 / 9));
     tempElement.textContent = `${weather.temperature}° F`;
+    
     
      // Choose icon based on weather conditions
     let iconPath = "../icons/default.png"; // Default icon path
