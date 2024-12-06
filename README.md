@@ -58,7 +58,6 @@ npm install @google/generative-ai
 ```
 
 Run a local server for the `.html` file in [`Pages`](Pages/).
-.html
 
 ---
 
