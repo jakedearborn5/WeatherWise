@@ -55,6 +55,7 @@ function updateWeatherDisplay(weather) {
     const conditionElement = document.getElementById('condition');
     const weatherIconElement = document.getElementById('weather-icon');
     const windElement = document.getElementById('wind-speed');
+    const chanceOfRainElement = document.getElementById('chance-rain');
 
     if (!weather) {
         console.error('Error fetching weather data');
@@ -64,6 +65,12 @@ function updateWeatherDisplay(weather) {
     weatherHeaderElement.textContent = weather.locationName;
     conditionElement.textContent = weather.shortForecast;
     windElement.textContent = weather.windSpeed;
+    chanceOfRainElement.textContent = weather.probabilityOfPrecipitation.value;
+    if(!weather.probabilityOfPrecipitation.value)
+    {
+        chanceOfRainElement.textContent = 0;
+    }
+    console.log('chance rain', weather.probabilityOfPrecipitation.value);
     tempElement.setAttribute('data-tempFahrenheit', weather.temperature);
     tempElement.setAttribute('data-tempCelsius', Math.round((weather.temperature - 32) * 5 / 9));
     tempElement.textContent = `${weather.temperature}° F`;
