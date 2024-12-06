@@ -54,6 +54,8 @@ function updateWeatherDisplay(weather) {
     const tempElement = document.getElementById('temp');
     const conditionElement = document.getElementById('condition');
     const weatherIconElement = document.getElementById('weather-icon');
+    const windElement = document.getElementById('wind-speed');
+    const chanceOfRainElement = document.getElementById('chance-rain');
 
     if (!weather) {
         console.error('Error fetching weather data');
@@ -62,9 +64,17 @@ function updateWeatherDisplay(weather) {
 
     weatherHeaderElement.textContent = weather.locationName;
     conditionElement.textContent = weather.shortForecast;
+    windElement.textContent = weather.windSpeed;
+    chanceOfRainElement.textContent = weather.probabilityOfPrecipitation.value;
+    if(!weather.probabilityOfPrecipitation.value)
+    {
+        chanceOfRainElement.textContent = 0;
+    }
+    console.log('chance rain', weather.probabilityOfPrecipitation.value);
     tempElement.setAttribute('data-tempFahrenheit', weather.temperature);
     tempElement.setAttribute('data-tempCelsius', Math.round((weather.temperature - 32) * 5 / 9));
     tempElement.textContent = `${weather.temperature}° F`;
+    
     
      // Choose icon based on weather conditions
     let iconPath = "../icons/default.png"; // Default icon path
@@ -119,8 +129,8 @@ function updateWeatherDisplay(weather) {
             { keyword: "isolated clouds", path: "../images/isolated_clouds_night.png"},
             { keyword: "mostly clear", path: "../images/partly_cloudy_night.png" },
             { keyword: "partly cloudy",  path: "../images/partly_cloudy_night.png" },
-            { keyword: "mostly cloudy",  path: "../images/isolated_clouds_night.png"},
-            { keyword: "partly clear", path: "../images/isolated_clouds_night.png"},
+            { keyword: "mostly cloudy",  path: "../images/mostly_cloudy_night.png"},
+            { keyword: "partly clear", path: "../images/mostly_cloudy_night.png"},
             { keyword: "clear", path: "../images/clear.png" },
             { keyword: "cloudy", path: "../images/cloudy.png" }
         ];
