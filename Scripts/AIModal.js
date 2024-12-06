@@ -58,6 +58,23 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       });
 
+      // Makes it so pressing enter sends message without needing to click
+      document.addEventListener('keydown', async function(event) {
+        if (event.key === 'Enter') {
+           // Assign the chatInput to a variable 
+        const message = chatInput.value.trim();
+
+        // If there is a message, send it and clear the chatInput
+        if (message) {
+          addMessage("User" , message);
+          chatInput.value = ''; // Clear the input
+
+          const chatBotResponse = await getChatBotResponse(message);
+          addMessage("Chatbot", chatBotResponse);
+        }
+        }
+      });
+
 function addMessage(sender, message) {
   const messageElement = document.createElement("div");
   messageElement.classList.add("message");
