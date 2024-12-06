@@ -1,14 +1,25 @@
 import './LocationSearch.js';
-import { getWeatherForLocation } from './LocationSearch.js';
+//import { getWeatherForLocation } from './LocationSearch.js';
+import weatherStore, { getHourWeather } from './WeatherLogic.js';
 
 // Initialize slides array to hold the data for Swiper
 const slides = []; 
 
-document.addEventListener('DOMContentLoaded', () => {
-    getWeather();
-    updateSlidesWithWeather();
+document.addEventListener('DOMContentLoaded', async () => {
+
+    // Getting location of the user
+    const userPosition = await getCurrentLocation();
+
+    // Getting and updating weatherStore
+    await getHourWeather(userPosition[0], userPosition[1]);
+
+    // Updating UI using data in weatherStore.weatherInfo
+    updateWeatherDisplay()
+
+    updateSlidesWithWeather(); // Jacob you won't need to pass an argument through this anymore
 });
 
+// Toggling between fahrenheit and celcius
 document.getElementById('toggles').addEventListener('change', () => {
     const toggleUnits = document.getElementById('toggles');
     const tempElement = document.getElementById('temp');
@@ -21,35 +32,7 @@ document.getElementById('toggles').addEventListener('change', () => {
     }
 });
 
-async function getWeather() {
-    try {
-        // Get the user's current location [latitude, longitude]
-        const userPosition = await getCurrentLocation();
-
-        // Getting the current forecast period
-        let currentPeriod = await getWeatherForLocation(userPosition[0], userPosition[1]);
-        currentPeriod.locationName = 'Current Weather';
-
-        if (!currentPeriod) {
-            console.error("No weather data found.");
-            return;
-        }
-
-        // Changing visual elements to current conditions
-        updateWeatherDisplay(currentPeriod);
-
-        // Update slides with weather information
-        updateSlidesWithWeather(currentPeriod);
-
-        // Schedule periodic updates
-        setTimeout(getWeather, 3600000); // Update every hour
-    } catch (error) {
-        console.error('Error fetching weather data:', error);
-        setTimeout(getWeather, 60000); // Retry in 1 minute
-    }
-}
-
-function updateWeatherDisplay(weather) {
+function updateWeatherDisplay() {
     const weatherHeaderElement = document.getElementById('weather-header');
     const tempElement = document.getElementById('temp');
     const conditionElement = document.getElementById('condition');
@@ -57,30 +40,25 @@ function updateWeatherDisplay(weather) {
     const windElement = document.getElementById('wind-speed');
     const chanceOfRainElement = document.getElementById('chance-rain');
 
-    if (!weather) {
-        console.error('Error fetching weather data');
-        return;
-    }
-
-    weatherHeaderElement.textContent = weather.locationName;
-    conditionElement.textContent = weather.shortForecast;
-    windElement.textContent = weather.windSpeed;
-    chanceOfRainElement.textContent = weather.probabilityOfPrecipitation.value;
-    if(!weather.probabilityOfPrecipitation.value)
+    weatherHeaderElement.textContent = 'Current Weather'; // We were defaulting to this in getWeather so I kept it that way, feel free to change -R
+    conditionElement.textContent = weatherStore.weatherInfo.shortForecast;
+    windElement.textContent = weatherStore.weatherInfo.windSpeed;
+    chanceOfRainElement.textContent = weatherStore.weatherInfo.rainChance;
+    if(!weatherStore.weatherInfo.rainChance)
     {
         chanceOfRainElement.textContent = 0;
     }
-    console.log('chance rain', weather.probabilityOfPrecipitation.value);
-    tempElement.setAttribute('data-tempFahrenheit', weather.temperature);
-    tempElement.setAttribute('data-tempCelsius', Math.round((weather.temperature - 32) * 5 / 9));
-    tempElement.textContent = `${weather.temperature}° F`;
+    console.log('chance rain', weatherStore.weatherInfo.rainChance);
+    tempElement.setAttribute('data-tempFahrenheit', weatherStore.weatherInfo.temperature);
+    tempElement.setAttribute('data-tempCelsius', Math.round((weatherStore.weatherInfo.temperature - 32) * 5 / 9));
+    tempElement.textContent = `${weatherStore.weatherInfo.temperature}° F`;
     
     
      // Choose icon based on weather conditions
     let iconPath = "../icons/default.png"; // Default icon path
-    const forecast = weather.shortForecast.toLowerCase();
+    const forecast = weatherStore.weatherInfo.shortForecast.toLowerCase();
 
-    if(weather.isDaytime) {
+    if(weatherStore.weatherInfo.isDaytime) {
         console.log('Daytime logic running...');
         // Define a prioritized mapping of keywords to icon paths
         const weatherIcons = [
@@ -144,6 +122,7 @@ function updateWeatherDisplay(weather) {
     }
     // Update the src attribute of the weather icon
     weatherIconElement.src = iconPath;
+    console.log(iconPath);
 
     // Call changeBackgroundGradient with the necessary parameters
     const currentTime = new Date().getHours();
@@ -151,10 +130,10 @@ function updateWeatherDisplay(weather) {
 }
 
 /**
- * Gets the user's current location using the geolocation API
- * @returns string[latitude, longitude] - The user's current latitude and longitude coordinates
- */
-async function getCurrentLocation() {
+* Gets the users current location using the geolocation API
+* @returns string[latitude, longitude] - The users current latitude and longitude coordinates
+*/
+export async function getCurrentLocation() {
     return new Promise((resolve, reject) => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
