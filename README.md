@@ -21,7 +21,7 @@
 ## :rocket: Tech Stack
 
 - **Frontend**: JavaScript, HTML, CSS
-- **Backend**: TODO
+- **Backend**: Node.js Express
 - **DevOps Management**: Jira
 - **Version Control**: Git
 
