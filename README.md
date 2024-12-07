@@ -40,7 +40,7 @@ Ensure you have [Node.js](https://nodejs.org/en/learn/getting-started/how-to-ins
 1. [Clone this repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) to your local machine:
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/jakedearborn5/WeatherWise.git
 cd WeatherWise
 ```
 
